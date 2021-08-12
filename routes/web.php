@@ -17,6 +17,9 @@ Route::get('/', function () {
     return view('posts');
 });
 
-Route::get('/post', function () {
-    return view('post');
+Route::get('/posts/{post}', function ($slug) {
+    $title = str_replace('-', ' ', $slug);
+    return view('post', [
+        'title' => ucfirst($title)
+    ]);
 });
