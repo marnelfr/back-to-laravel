@@ -50,6 +50,13 @@ Here, ``title`` will be calculated and then add to the
 cache for 20s. After 20s, it will be recalculated again and
 then add to the cache,...
 
+### Getting around directory
+Laravel provide functions such as
+- ``base_path``: return the path to the root of our project
+- ``resource_path``: return the path to the **resource directory**
+- ``app_path``: return the path to the app directory
+
+They do receive a sub path to a particular file.
 
 
 
