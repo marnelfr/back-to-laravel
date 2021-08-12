@@ -18,7 +18,13 @@ Route::get('/', function () {
 });
 
 Route::get('/posts/{post}', function ($slug) {
-    $title = str_replace('-', ' ', $slug);
+
+    $title = cache()->remember("posts.{$slug}", now()->addSecond(10), function () use ($slug) {
+        var_dump('expensive operation done');
+        sleep(2); //representing an expensive operation
+        return str_replace('-', ' ', $slug);
+    });
+
     return view('post', [
         'title' => ucfirst($title)
     ]);

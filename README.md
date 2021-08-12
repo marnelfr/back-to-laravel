@@ -36,3 +36,30 @@ Route::get('/posts/{slug}', function ($slug) {
 })->where('post', '[A-z_\-]+');
 ````
 
+### Catching expensive operation
+What about expensive operation? Should we run them every time
+a user tend to access a particular page that run it? No!
+We can catch them for a while:
+````injectablephp 
+$title = cache()->remember("posts.{$slug}", now()->addSecond(10), function () use ($slug) {
+    sleep(2); //representing an expensive operation
+    return str_replace('-', ' ', $slug);
+});
+````
+Here, ``title`` will be calculated and then add to the 
+cache for 20s. After 20s, it will be recalculated again and
+then add to the cache,...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
