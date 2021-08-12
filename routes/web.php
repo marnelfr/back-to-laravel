@@ -22,4 +22,4 @@ Route::get('/posts/{post}', function ($slug) {
     return view('post', [
         'title' => ucfirst($title)
     ]);
-});
+})->where('post', '[A-z_\-]+');
