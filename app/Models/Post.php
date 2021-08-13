@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class Post
 {
@@ -28,11 +30,18 @@ class Post
         );
     }
 
-    static function all(): array {
+    static function all(): Collection {
         try {
             $posts = cache()->remember('posts.all', now()->addSecond(30), function () {
-                $files = File::allFiles(resource_path('posts'));
-                return array_map(fn($post) => $post->getContents(), $files);
+                return collect(File::files(resource_path('posts')))
+                    ->map(fn($file) => YamlFrontMatter::parseFile($file))
+                    ->map(fn($document) => new Post(
+                        $document->title,
+                        $document->excerpt,
+                        $document->body(),
+                        $document->slug
+                    ))
+                ;
             });
         } catch (\Exception $e) {
             $posts = [];

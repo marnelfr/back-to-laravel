@@ -16,14 +16,7 @@ use \Spatie\YamlFrontMatter\YamlFrontMatter;
 */
 
 Route::get('/', function () {
-    $files = \Illuminate\Support\Facades\File::files(resource_path('posts'));
-    $documents = array_map(fn($file) => YamlFrontMatter::parseFile($file), $files);
-    $posts = array_map(fn($document) => new Post(
-        $document->title,
-        $document->excerpt,
-        $document->body(),
-        $document->slug
-    ), $documents);
+    $posts = Post::all();
     return view('posts', [
         'posts' =>  $posts
     ]);
