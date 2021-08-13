@@ -29,7 +29,6 @@ class Post
     }
 
     static function all(): Collection {
-        cache()->forget('posts.all');
         try {
             $posts = cache()->rememberForever('posts.all', function () {
                 return collect(File::files(resource_path('posts')))

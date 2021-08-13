@@ -50,6 +50,17 @@ Here, ``title`` will be calculated and then add to the
 cache for 20s. After 20s, it will be recalculated again and
 then add to the cache,...
 
+#### Great idea
+Here a great idea will be to cache forever the content of 
+a particular page and then forget it from the cache when the
+content of that page is modify.\
+For example, it could be great to cache the post list and 
+forget it as a new post is created.
+````injectablephp
+cache()->forget('posts.list');
+cache()->rememberForever('posts.list', callback());
+````
+
 ### Getting around directory
 Laravel provide functions such as
 - ``base_path``: return the path to the root of our project
