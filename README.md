@@ -80,12 +80,54 @@ Do you know about the ``Illuminate\Support\Facades\File``
 provide by laravel ? It helps to manage file system.
 
 
+### Blade
+- @foreach
+  - inside here, we've got the ``$loop`` variable that give use a lot
+of information about the iteration such as
+    - iteration: index1
+    - index: index0
+    - remaining: count - index1
+    - count: size
+    - first: ``true`` if it's the first iteration
+    - last: ``true`` if it's the last iteration
+    - odd/even
+    - depth: the nesting level
+    - parent: the parent iteration loop in a nested level
+- @if
+- @unless
+- @dd
+- {{ }} to show variables 
+- {!! !!} to show html
 
+Using components with blade need you to have a **resources/view/components**
+directory that will hold your components.\
+Refer to your components using the tage ``x-componentName``
 
+views/components/layout.blade.php:
+````html
+<body>
+    {{ $content }}
+</body>
+````
+↓↓↓↓↓
 
+views/posts.blade.php:
+````html
+<x-layout>
+    <x-slot name="content">
+        Hello world
+    </x-slot>
+</x-layout>
+````
 
-
-
+Components do have a default slot. To use it, simply
+replace ``$content`` by ``$slot`` then the **posts.blade.php** 
+content will become:
+````html
+<x-layout>
+    Hello world
+</x-layout>
+````
 
 
 
