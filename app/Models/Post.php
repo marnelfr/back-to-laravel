@@ -22,15 +22,8 @@ class Post
         $this->slug = $slug;
     }
 
-    static function find($slug): Post {
-        return cache()->remember(
-            'posts.' . $slug,
-            now()->addSecond(30),
-            function () use ($slug) {
-                $document = YamlFrontMatter::parseFile(resource_path("posts/{$slug}.html"));
-                return new Post($document->title, $document->excerpt, $document->body(), $document->slug);
-            }
-        );
+    static function find($slug) {
+        return static::all()->firstWhere('slug', $slug);
     }
 
     static function all(): Collection {

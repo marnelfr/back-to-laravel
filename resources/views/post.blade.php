@@ -10,11 +10,9 @@
 </head>
 <body>
     <article>
-        <h4>
-            <a href="posts/<?= $post->slug ?>">
-                <?= $post->title ?>
-            </a>
-        </h4>
+        <h1>
+            <?= $post->title ?>
+        </h1>
         <div>
             <?= $post->body ?>
         </div>
