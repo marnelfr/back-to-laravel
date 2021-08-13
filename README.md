@@ -59,6 +59,14 @@ Laravel provide functions such as
 They do receive a sub path to a particular file.
 
 
+### YamlFrontMatter
+Do you know about the [YamlFrontMatter](https://github.com/spatie/yaml-front-matter) ?\
+Go and take a look at it :)
+
+
+### FileSystem management
+Do you know about the ``Illuminate\Support\Facades\File`` 
+provide by laravel ? It helps to manage file system.
 
 
 

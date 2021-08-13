@@ -7,6 +7,19 @@ use Illuminate\Support\Facades\File;
 class Post
 {
 
+    public $title;
+    public $excerpt;
+    public $body;
+    public $slug;
+
+    public function __construct($title, $excerpt, $body, $slug)
+    {
+        $this->title = $title;
+        $this->excerpt = $excerpt;
+        $this->body = $body;
+        $this->slug = $slug;
+    }
+
     static function find($slug): string {
         return cache()->remember(
             'posts.' . $slug,
