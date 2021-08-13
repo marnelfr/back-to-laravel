@@ -13,13 +13,15 @@ class Post
     public $excerpt;
     public $body;
     public $slug;
+    public $date;
 
-    public function __construct($title, $excerpt, $body, $slug)
+    public function __construct($title, $excerpt, $date, $body, $slug)
     {
         $this->title = $title;
         $this->excerpt = $excerpt;
         $this->body = $body;
         $this->slug = $slug;
+        $this->date = $date;
     }
 
     static function find($slug) {
@@ -27,16 +29,19 @@ class Post
     }
 
     static function all(): Collection {
+        cache()->forget('posts.all');
         try {
-            $posts = cache()->remember('posts.all', now()->addSecond(30), function () {
+            $posts = cache()->rememberForever('posts.all', function () {
                 return collect(File::files(resource_path('posts')))
                     ->map(fn($file) => YamlFrontMatter::parseFile($file))
                     ->map(fn($document) => new Post(
                         $document->title,
                         $document->excerpt,
+                        $document->date,
                         $document->body(),
                         $document->slug
                     ))
+                    ->sortByDesc('date')
                 ;
             });
         } catch (\Exception $e) {
