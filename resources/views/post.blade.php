@@ -9,7 +9,16 @@
     <link rel="stylesheet" href="/app.css">
 </head>
 <body>
-    <?= $post; ?>
+    <article>
+        <h4>
+            <a href="posts/<?= $post->slug ?>">
+                <?= $post->title ?>
+            </a>
+        </h4>
+        <div>
+            <?= $post->body ?>
+        </div>
+    </article>
     <a href="/">Go Back</a>
 </body>
 </html>

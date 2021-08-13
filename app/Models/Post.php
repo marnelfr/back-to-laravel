@@ -22,11 +22,14 @@ class Post
         $this->slug = $slug;
     }
 
-    static function find($slug): string {
+    static function find($slug): Post {
         return cache()->remember(
             'posts.' . $slug,
             now()->addSecond(30),
-            fn() => file_get_contents(resource_path('posts/' . $slug . '.html'))
+            function () use ($slug) {
+                $document = YamlFrontMatter::parseFile(resource_path("posts/{$slug}.html"));
+                return new Post($document->title, $document->excerpt, $document->body(), $document->slug);
+            }
         );
     }
 
