@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -22,6 +23,16 @@ class Post
         $this->body = $body;
         $this->slug = $slug;
         $this->date = $date;
+    }
+
+    static function findOrFail($slug) {
+        $post = static::find($slug);
+
+        if (!$post) {
+            throw new ModelNotFoundException();
+        }
+
+        return $post;
     }
 
     static function find($slug) {

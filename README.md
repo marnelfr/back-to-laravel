@@ -96,6 +96,7 @@ of information about the iteration such as
 - @if
 - @unless
 - @dd
+- @yield -> @extends
 - {{ }} to show variables 
 - {!! !!} to show html
 
