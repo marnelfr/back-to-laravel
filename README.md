@@ -224,7 +224,14 @@ public function category() {
 Since then, category's information will be loaded with the corresponding post
 and it can be accessed by ``$post->category->name``
 
-
+As same, we can have in the category's model:
+````injectablephp
+public function posts() {
+    return $this->hasMany(Post::class);
+}
+````
+And then, we can access posts related to a category by
+``$category->posts``
 
 
 
