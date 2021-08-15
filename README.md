@@ -253,6 +253,11 @@ Post::with('category')->get(); //or fist() to get only the first.
 // Instead of only doing:
 Post::all();
 ````
+The method ``with()`` can take an array listing every model we want to load
+with our model or even a list of arguments of those methods.
+
+We can sort by desc our post by calling the ``latest()`` method before
+the ``with()`` method.
 
 ### Seeder
 They are used to populating the database as we refresh it.\
