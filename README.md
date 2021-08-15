@@ -41,7 +41,7 @@ What about expensive operation? Should we run them every time
 a user tend to access a particular page that run it? No!
 We can catch them for a while:
 ````injectablephp 
-$title = cache()->remember("posts.{$slug}", now()->addSecond(10), function () use ($slug) {
+$title = cache()->remember("posts.{$slug}", now()->addSecond(20), function () use ($slug) {
     sleep(2); //representing an expensive operation
     return str_replace('-', ' ', $slug);
 });
@@ -62,7 +62,7 @@ cache()->rememberForever('posts.list', callback());
 ````
 
 ### Getting around directory
-Laravel provide functions such as
+Laravel provides functions such as
 - ``base_path``: return the path to the root of our project
 - ``resource_path``: return the path to the **resource directory**
 - ``app_path``: return the path to the app directory
@@ -129,6 +129,80 @@ content will become:
     Hello world
 </x-layout>
 ````
+
+### Database
+The database ORM here is **Eloquent**\
+**artisan** provide a lot of command to manage the database through our
+migrations.
+In a migration, 
+- the **up** function is executed by the command
+``php artisan migrate``
+- the **down** function is executed by the command 
+``php artisan migrate:rollback`` for latest migrations
+- the command ``php artisan migrate:fresh`` execute the
+**up** functions off all migration after deleting every 
+table in the database.
+
+### Active Record Pattern
+The active record pattern refers to a model in laravel.
+Here, the User model refers to the current active record in the users table 
+in the database.
+- ``User::count()`` returns the number of element in the users tables
+- ``User::find(1)`` returns the user with id 1
+- ``$users = User::all()`` returns a collection of all record in the users table
+let's say in the ``$users`` variable
+- ``$users->pluck('name')`` returns a collection containing only users
+names. This is actually like doing ``$users->map(fn($user) => $user->name)``
+- ``$users->first()`` returns the first user in the collection like
+``$users[0]``
+- ``$user->save()`` to save a new user into the database. Returns ``true`` if succeed
+- ``$user->fresh()`` rollback to information currently in the database
+
+### Dealing with model
+- ``php artisan make:migration create_posts_table`` used to create a new
+migration\
+Once the migration is created, the **up** method should be customized according 
+to our need
+- ``php artisan migrate`` to modify the database according to new migrations
+- ``php artisan make:model Post`` to add a model for the table we've just created
+
+### MassAssignment
+It's possible to create record using the static ``create()`` methode
+and to update record using ``update()`` methode. This may lead to
+a **MassAssignmentException** if the **protected** field ``fillable`` 
+doesn't contain at least the required field of our table or if the **protected**
+filed ``guarded`` contains any of those require fields.
+
+Notice that the **create** and **update** methode don't need a call to 
+the **save** method.
+
+````injectablephp
+$post = App\Models\Post::create(['title' => 'the title', 'excerpt' => 'the excerpt', 'body' => 'the body']);
+````
+Here, we save our new post in ``$post`` only if we need the variable for
+any other purpose. Other ways, we can just forget about it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
