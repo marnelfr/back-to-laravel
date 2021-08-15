@@ -183,6 +183,29 @@ Here, we save our new post in ``$post`` only if we need the variable for
 any other purpose. Other ways, we can just forget about it.
 
 
+### Route model binding
+It's possible to bind a model to a route but the variable must 
+has the same name as the route key (??wild code):
+````injectablephp
+Route::get('/posts/{post}', function (Post $post) {
+    return view('post', ['post' =>] $post);
+})
+````
+
+However, if we want to use another (maybe unique) key than the id
+(let's say the **slug**), we can let laravel know it by changing 
+the current route by ``/posts/{post:slug}``.
+
+In case with got a lot of route that use another key than the id, we
+can notify it in the model:
+````injectablephp
+public function getRouteKeyName() {
+    return 'slug';
+}
+````
+From there, all of our **route model binding** should use the **slug**
+attribute.
+
 
 
 
