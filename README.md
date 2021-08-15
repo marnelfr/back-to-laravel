@@ -207,7 +207,22 @@ From there, all of our **route model binding** should use the **slug**
 attribute.
 
 
+### Eloquent relationship
+In a migration, you can add a ``foreignId`` column.\
+Then, in the corresponding model, add a method named as the foreign 
+key model:
+````injectablephp
+//In the post's migration:
+$table->foreignId('category_id');
 
+//In the post's model:
+public function category() {
+    // Use the corresponding method accorded to their relationship
+    return $this->belongsTo(Category::class);
+}
+````
+Since then, category's information will be loaded with the corresponding post
+and it can be accessed by ``$post->category->name``
 
 
 

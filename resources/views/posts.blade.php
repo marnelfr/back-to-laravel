@@ -1,11 +1,14 @@
 <x-layout>
     @foreach($posts as $post)
         <article>
-            <h4>
+            <h2>
                 <a href="posts/{{ $post->slug }}">
                     {{ $post->title }}
                 </a>
-            </h4>
+            </h2>
+            <p>
+                <a href="#">{{ $post->category->name }}</a>
+            </p>
             <div>
                 {!! $post->body !!}
             </div>
