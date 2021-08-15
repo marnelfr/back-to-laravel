@@ -188,7 +188,7 @@ It's possible to bind a model to a route but the variable must
 has the same name as the route key (??wild code):
 ````injectablephp
 Route::get('/posts/{post}', function (Post $post) {
-    return view('post', ['post' =>] $post);
+    return view('post', ['post' => $post);
 })
 ````
 
@@ -249,13 +249,35 @@ To fix it, we should always load our model with their foreign key model
 information if we need them:
 ````injectablephp
 // We should do:
-Post::with('category')->get();
+Post::with('category')->get(); //or fist() to get only the first.
 // Instead of only doing:
 Post::all();
 ````
 
+### Seeder
+They are used to populating the database as we refresh it.\
+Seeders are located in the **database directory**.\
+Using seeders, we can use the ``create()`` method even if the **fillable/guarded**
+property is not fill in the model.
+Then, while refreshing our database base, we can directly 
+load our data using: ``artisan migrate:fresh --seed``
 
+### Factories
+Using seeds may make you faster but using factories with seed can
+boost your development. It uses ``Faker`` to generate fake data used
+to populate our tables.\
+They are located in the **database directory** and to use them, we need 
+to fill the ``definition()`` method.\
+Now, inside à factory, it's possible to call another factory. in order
+to create our fake data according to their relationship.
 
+But from inside our seed, we can also overwrite some of those relationship
+factory in order to make multiple article be created by a unique user
+for example.
+
+It better to create our factory at the same time we are creating our
+model and seed aannnd controllers using:
+``artisan make:model Post -mfsc``
 
 
 

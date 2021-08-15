@@ -34,4 +34,5 @@ Route::get('/categories/{category:slug}', function (Category $category) {
     ]);
 });
 
+
 Route::get("/welcome", fn() => view('welcome'));
