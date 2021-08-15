@@ -268,8 +268,9 @@ boost your development. It uses ``Faker`` to generate fake data used
 to populate our tables.\
 They are located in the **database directory** and to use them, we need 
 to fill the ``definition()`` method.\
-Now, inside à factory, it's possible to call another factory. in order
-to create our fake data according to their relationship.
+Now, inside a factory, it's possible to call another factory in order
+to create our fake data according to their relationship. But the sub-factory
+used here should be created first.
 
 But from inside our seed, we can also overwrite some of those relationship
 factory in order to make multiple article be created by a unique user
