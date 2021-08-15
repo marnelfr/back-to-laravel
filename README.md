@@ -234,6 +234,27 @@ And then, we can access posts related to a category by
 ``$category->posts``
 
 
+### Clockwork
+Do you about [ClockWork](https://github.com/itsgoingd/clockwork)?
+It's used by laravel to debug things like sql as done by doctrine 
+in Symfony.
+It needs to be installed in the project and has also got an extension 
+to install on the browser. 
+[Learn more about it](https://underground.works/blog/clockwork-5.1-released-with-database-queries-highlighting-and-more)
+
+### N+1 Problem
+The **N+1 Problem** refers to the fact that to load **N record**, we may
+make eloquent do **N+1 query**. This is actually very bad.\
+To fix it, we should always load our model with their foreign key model
+information if we need them:
+````injectablephp
+// We should do:
+Post::with('category')->get();
+// Instead of only doing:
+Post::all();
+````
+
+
 
 
 
