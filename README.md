@@ -1,10 +1,10 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+    <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
 ## About Laravel
@@ -37,8 +37,8 @@ Route::get('/posts/{slug}', function ($slug) {
 ````
 
 ### Catching expensive operation
-What about expensive operation? Should we run them every time
-a user tend to access a particular page that run it? No!
+What about expensive operations? Should we run them every time
+a user tend to access a particular page that need their result? No!
 We can catch them for a while:
 ````injectablephp 
 $title = cache()->remember("posts.{$slug}", now()->addSecond(20), function () use ($slug) {
@@ -53,7 +53,7 @@ then add to the cache,...
 #### Great idea
 Here a great idea will be to cache forever the content of 
 a particular page and then forget it from the cache when the
-content of that page is modify.\
+content of that page is modified.\
 For example, it could be great to cache the post list and 
 forget it as a new post is created.
 ````injectablephp
@@ -131,7 +131,7 @@ content will become:
 ````
 
 ### Database
-The database ORM here is **Eloquent**\
+The ORM here is **Eloquent**\
 **artisan** provide a lot of command to manage the database through our
 migrations.
 In a migration, 
@@ -145,8 +145,8 @@ table in the database.
 
 ### Active Record Pattern
 The active record pattern refers to a model in laravel.
-Here, the User model refers to the current active record in the users table 
-in the database.
+Here, the User model refers to the current active record in the 
+database's users table.
 - ``User::count()`` returns the number of element in the users tables
 - ``User::find(1)`` returns the user with id 1
 - ``$users = User::all()`` returns a collection of all record in the users table
@@ -167,13 +167,13 @@ to our need
 - ``php artisan make:model Post`` to add a model for the table we've just created
 
 ### MassAssignment
-It's possible to create record using the static ``create()`` methode
-and to update record using ``update()`` methode. This may lead to
-a **MassAssignmentException** if the **protected** field ``fillable`` 
-doesn't contain at least the required field of our table or if the **protected**
+It's possible to create records using the static ``create()`` method
+and to update records using the ``update()`` methode. This may lead to
+a **MassAssignmentException** if the **protected** field ``$fillable`` 
+doesn't contain at least the required fields of our table or if the **protected**
 filed ``guarded`` contains any of those require fields.
 
-Notice that the **create** and **update** methode don't need a call to 
+Notice that the **create** and **update** methods don't need a call to 
 the **save** method.
 
 ````injectablephp
@@ -184,20 +184,21 @@ any other purpose. Other ways, we can just forget about it.
 
 
 ### Route model binding
-It's possible to bind a model to a route but the variable must 
-has the same name as the route key (??wild code):
+It's possible to bind a model to a route but the injected variable must
+have the same name as the route key (??wild code) and it uses 
+by default the id to retrieve the corresponding record:
 ````injectablephp
 Route::get('/posts/{post}', function (Post $post) {
-    return view('post', ['post' => $post);
+    return view('post', ['post' => $post]);
 })
 ````
 
 However, if we want to use another (maybe unique) key than the id
-(let's say the **slug**), we can let laravel know it by changing 
+(let's say a **slug**), we can let laravel know it by changing 
 the current route by ``/posts/{post:slug}``.
 
-In case with got a lot of route that use another key than the id, we
-can notify it in the model:
+In case we've got a lot of route that use another key than the id, we
+can notify it in the model using:
 ````injectablephp
 public function getRouteKeyName() {
     return 'slug';
@@ -221,10 +222,10 @@ public function category() {
     return $this->belongsTo(Category::class);
 }
 ````
-Since then, category's information will be loaded with the corresponding post
+Since then, category's information can be loaded from its related post
 and it can be accessed by ``$post->category->name``
 
-As same, we can have in the category's model:
+Likewise, we can have in the category's model:
 ````injectablephp
 public function posts() {
     return $this->hasMany(Post::class);
@@ -239,13 +240,13 @@ Do you about [ClockWork](https://github.com/itsgoingd/clockwork)?
 It's used by laravel to debug things like sql as done by doctrine 
 in Symfony.
 It needs to be installed in the project and has also got an extension 
-to install on the browser. 
-[Learn more about it](https://underground.works/blog/clockwork-5.1-released-with-database-queries-highlighting-and-more)
+that need to be installed on the browser. 
+[Learn more about the new release](https://underground.works/blog/clockwork-5.1-released-with-database-queries-highlighting-and-more).
 
 ### N+1 Problem
 The **N+1 Problem** refers to the fact that to load **N record**, we may
-make eloquent do **N+1 query**. This is actually very bad.\
-To fix it, we should always load our model with their foreign key model
+make eloquent do **N+1 queries**. This is actually very bad.\
+To fix it, we should always load our models with their foreign key model
 information if we need them:
 ````injectablephp
 // We should do:
@@ -254,7 +255,7 @@ Post::with('category')->get(); //or fist() to get only the first.
 Post::all();
 ````
 The method ``with()`` can take an array listing every model we want to load
-with our model or even a list of arguments of those methods.
+with our model or even a list of arguments of those models.
 
 We can sort by desc our post by calling the ``latest()`` method before
 the ``with()`` method.
@@ -268,20 +269,20 @@ Then, while refreshing our database base, we can directly
 load our data using: ``artisan migrate:fresh --seed``
 
 ### Factories
-Using seeds may make you faster but using factories with seed can
+Using seeds may make us faster but using factories with seed can
 boost your development. It uses ``Faker`` to generate fake data used
 to populate our tables.\
 They are located in the **database directory** and to use them, we need 
 to fill the ``definition()`` method.\
 Now, inside a factory, it's possible to call another factory in order
 to create our fake data according to their relationship. But the sub-factory
-used here should be created first.
+used here should be created as well.
 
 But from inside our seed, we can also overwrite some of those relationship
 factory in order to make multiple article be created by a unique user
 for example.
 
-It better to create our factory at the same time we are creating our
+It better to create our factories at the same time we are creating our
 model and seed aannnd controllers using:
 ``artisan make:model Post -mfsc``
 
