@@ -69,16 +69,13 @@ Laravel provides functions such as
 
 They do receive a sub path to a particular file.
 
-
 ### YamlFrontMatter
 Do you know about the [YamlFrontMatter](https://github.com/spatie/yaml-front-matter) ?\
 Go and take a look at it :)
 
-
 ### FileSystem management
 Do you know about the ``Illuminate\Support\Facades\File`` 
 provide by laravel ? It helps to manage file system.
-
 
 ### Blade
 - @foreach
@@ -97,6 +94,7 @@ of information about the iteration such as
 - @unless
 - @dd
 - @yield -> @extends
+- @include
 - {{ }} to show variables 
 - {!! !!} to show html
 
@@ -182,7 +180,6 @@ $post = App\Models\Post::create(['title' => 'the title', 'excerpt' => 'the excer
 Here, we save our new post in ``$post`` only if we need the variable for
 any other purpose. Other ways, we can just forget about it.
 
-
 ### Route model binding
 It's possible to bind a model to a route but the injected variable must
 have the same name as the route key (??wild code) and it uses 
@@ -206,7 +203,6 @@ public function getRouteKeyName() {
 ````
 From there, all of our **route model binding** should use the **slug**
 attribute.
-
 
 ### Eloquent relationship
 In a migration, you can add a ``foreignId`` column.\
@@ -234,7 +230,6 @@ public function posts() {
 And then, we can access posts related to a category by
 ``$category->posts``
 
-
 ### Clockwork
 Do you about [ClockWork](https://github.com/itsgoingd/clockwork)?
 It's used by laravel to debug things like sql as done by doctrine 
@@ -250,7 +245,7 @@ To fix it, we should always load our models with their foreign key model
 information if we need them:
 ````injectablephp
 // We should do:
-Post::with('category')->get(); //or fist() to get only the first.
+Post::with('category')->get(); //or fist() to get only the first or take(2) for the first two.
 // Instead of only doing:
 Post::all();
 ````
@@ -286,7 +281,6 @@ It better to create our factories at the same time we are creating our
 model and seed aannnd controllers using:
 ``artisan make:model Post -mfsc``
 
-
 ### Eager loading relationships
 In case we're not loading records from the model but an existing 
 model, we can't use the ``with()`` method but we've got the ``load()``
@@ -299,7 +293,6 @@ Route::get('/authors/{author}', function (User $author) {
 });
 ````
 
-
 ### The $with attributes
 Just in case we most of the time need to load our model with some
 sub-model, we can overwrite the ``$with`` attribute of our model:
@@ -311,11 +304,35 @@ In this case, we've got the ``without()`` method that we can use in case
 we don't want to load our model with all the sub-model listed in the ``$with``
 attributes.
 
+### Integrating the template
+While using component, you can send variables via props:
+````html
+<x-post-featured-card :post="$posts->first()"/>
+````
+Here, we've got the first record of the ``$posts`` variable that
+will be sent to the ``post-featured-card.blade.php`` component.
+Thus, inside the component, will refer to it:
+````html
+@props(['props'])
+````
+We can also send attributes, and they are accessible via the ``$attributes``
+variable and can even be merged with other attributes inside the 
+components like this:
+````injectablephp
+<div {{ $attributes->merge(['class' => 'transition-colors duration-300 hover:bg-gray-100 border border-black border-opacity-0 hover:border-opacity-5 rounded-xl']) }}></div>
+````
 
-
-
-
-
+We've already used the first record, so it can be skipped:
+````injectablephp
+@foreach($posts->skip(1) as $post)
+    # code...
+    <h1>{{ $post->title }}</h1>
+    <p>
+        Published <time>{{ $post->created_at->diffForHumans() }}</time>
+    </p>
+@endforeach
+````
+The ``diffForHumans()`` method can be used to make date more readable.
 
 
 
