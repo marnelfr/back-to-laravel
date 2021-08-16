@@ -19,7 +19,7 @@ use \Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get('/', function () {
     return view('posts', [
-        'posts' => Post::latest()->with('category', 'author')->get()
+        'posts' => Post::latest()->get()
     ]);
 });
 
@@ -31,13 +31,13 @@ Route::get('/posts/{post:slug}', function (Post $post) {
 Route::get('/categories/{category:slug}', function (Category $category) {
     return view('posts', [
         // How to fix the N+1 problem here?
-        'posts' => $category->posts->load('category', 'author')
+        'posts' => $category->posts
     ]);
 });
 
 Route::get('/authors/{author:username}', function (User $author) {
     return view('posts', [
-        'posts' => $author->posts->load('category', 'author')
+        'posts' => $author->posts
     ]);
 });
 
