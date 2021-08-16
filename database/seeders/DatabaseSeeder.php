@@ -20,9 +20,17 @@ class DatabaseSeeder extends Seeder
             'name' => 'Marnel Gnacadja',
             'username' => 'marnelfr'
         ]);
+        $category = Category::factory()->create([
+            'name' => 'Hobbies',
+            'slug' => 'hobbies'
+        ]);
+
         Post::factory(2)->create([
             'user_id' => $user->id
         ]);
         Post::factory(5)->create();
+        Post::factory(4)->create([
+            'category_id' => $category->id
+        ]);
     }
 }
