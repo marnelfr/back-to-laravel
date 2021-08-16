@@ -286,10 +286,29 @@ model and seed aannnd controllers using:
 ``artisan make:model Post -mfsc``
 
 
+### Eager loading relationships
+In case we're not loading records from the model but an existing 
+model, we can't use the ``with()`` method but we've got the ``load()``
+method that we can use:
+````injectablephp
+Route::get('/authors/{author}', function (User $author) {
+    return view('posts', [
+        'posts' => $author->posts->load(['category', 'author'])
+    ]);
+});
+````
 
 
-
-
+### The $with attributes
+Just in case we most of the time need to load our model with some
+sub-model, we can overwrite the ``$with`` attribute of our model:
+````injectablephp
+//in our model class:
+protected $with = ['author', 'category'];
+````
+In this case, we've got the ``without()`` method that we can use in case
+we don't want to load our model with all the sub-model listed in the ``$with``
+attributes.
 
 
 
