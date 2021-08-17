@@ -354,11 +354,10 @@ like Vue or React at a much lower cost. Why not take a look at it?
 It's possible to add method usable to our models:
 ````injectablephp
 // Inside our Post model:
-public function scopeFilter($query, $filter) {
-    if ($filter !== '') {
-        $query->where('title', 'like', '%' . $filter . '%');
+public function scopeFilter($query, $filters) {
+    if ($filters['search'] ?? false) {
+        $query->where('title', 'like', '%' . $filters['search'] . '%');
     }
-    return $query;
 }
 
 // Inside our controller:
@@ -369,9 +368,17 @@ public function index() {
 }
 ````
 Adding the ``scopeFilter()`` method to our model allow us to use the
-``filter()`` method while loading our records.
-
-
+``filter()`` method while loading our records.\
+However, the query builder offers us the ``when()`` method
+that we can use to simplify our scope body. Using it, our scope filter
+will become:
+````injectablephp
+public function scopeFilter($query, $filters) {
+    $query->when($filters['search'] ?? false, fn($query, $search) => $query
+        ->where('title', 'like', '%' . $search . '%')
+    );
+}
+````
 
 
 
