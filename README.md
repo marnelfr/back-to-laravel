@@ -341,6 +341,8 @@ $currentCategory->is($category) ? 'They have the same ID' : 'They are different 
 provided path.
 - ``$request()->routeIs('routeName')`` same as the previous but here, we're
 using the route name.
+- ``Post::firstWhere('column', 'value')`` better than 
+`Post::where('col', 'val')->first()``
 
 
 
