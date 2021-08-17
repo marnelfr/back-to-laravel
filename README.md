@@ -426,8 +426,25 @@ we can have the component ``\resources\views\components\posts\author.blade.php``
 that will use through the tag ``<x-posts.author />``
 
 
+### OR condition's issue
+Because of some issues that brings the **OR Condition**, it's better
+to always group condition where it appear:
+````injectablephp
+$query->where(
+    fn($query) => $query
+        ->where('title', 'like', '%' . $filters['search'] . '%')
+        ->orWhere('body', 'like', '%' . $filters['search'] . '%')
+)
+````
 
 
+### Combining query
+It's possible to combine our query using the ``http_build_query()`` method.
+````html
+<a href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category')) }}">
+    {{ $category->name }}
+</a>
+````
 
 
 
