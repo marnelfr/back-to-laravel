@@ -332,7 +332,43 @@ We've already used the first record, so it can be skipped:
     </p>
 @endforeach
 ````
-The ``diffForHumans()`` method can be used to make date more readable.
+The ``diffForHumans()`` method can be used to make date more readable.\
+While comparing two record, we can use the ``is()`` method:
+````injectablephp
+$currentCategory->is($category) ? 'They have the same ID' : 'They are different records';
+````
+
+
+
+
+### Alapinejs
+[Alapine.js](https://github.com/alpinejs/alpine/tree/v2.8.2) 
+offers you the reactive and declarative nature of big frameworks 
+like Vue or React at a much lower cost. Why not take a look at it?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

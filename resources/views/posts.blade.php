@@ -3,7 +3,9 @@
     @if ($posts->count())
         <x-post-grid :posts="$posts"/>
     @else
-        <p>No post publish for the moment</p>
+        <div class="text-center mt-5">
+            <p>No post publish for the moment</p>
+        </div>
     @endif
 </x-layout>
 
