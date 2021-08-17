@@ -34,14 +34,7 @@
                 @endforeach
             </x-dropdown>
         </div>
-
-
-
-
-
-
-
-
+{{--
 
         <!-- Other Filters -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl">
@@ -64,6 +57,7 @@
                 </g>
             </svg>
         </div>
+--}}
 
         <!-- Search -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl px-3 py-2">
