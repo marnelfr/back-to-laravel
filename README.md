@@ -446,9 +446,39 @@ It's possible to combine our query using the ``http_build_query()`` method.
 </a>
 ````
 
+### Pagination
+We've got the method ``paginate($totalPerPage)`` that can be used
+instead of ``get()`` for example.
+````injectablephp
+$posts = Post::latest()->paginate(6); // or simplePaginate(6);
+````
+Since then, we can display the pagination's links in our view using 
+````html
+{{ $posts->links() }}
+````
 
+By default, Laravel use the tailwind css famework. But we can change 
+this in the ``\app\Providers\AppServiceProvider::boot()`` method.
+The supported css frameworks are:
+- bootstrap 4
+- bootstrap 3
+- tailwind
+- semantic-ui
 
+````injectablephp
+public function boot()
+{
+    Illuminate\Pagination\Paginator::useBootstrap();
+}
+````
 
+We can even customize the template used by laravel to display
+our pages' links. To do so, let's publish them first using:
+``artisan vendor:publish``.\
+Then we've got the choose the **Tag: laravel-pagination**
+
+We've also got the ``withQueryString()`` method that can be used
+to consider our query while changing a page.
 
 
 
