@@ -380,8 +380,35 @@ public function scopeFilter($query, $filters) {
 }
 ````
 
+### whereExists
+Let's rewrite our ``filter()`` method to get posts about a giving 
+category slug using ``whereExists()``:
+````injectablephp
+public function scopeFilter($query, $filters) {
+    // previous filter's code...
+    $query->when($filters['category'] ?? false, fn($query, $categorySlug) => $query
+        ->whereExists(
+            fn($query) => $query
+                ->from('categories')
+                ->whereColumn('categories.id', 'posts.category_id')
+                ->where('categories.slug', $categorySlug)
+        )
+    );
+}
+````
 
-
+### whereHas
+Another way using to write the previous code using ``whereHas()``:
+````injectablephp
+public function scopeFilter($query, $filters) {
+    // previous filter's code...
+    $query->when($filters['category'] ?? false, fn($query, $categorySlug) => $query
+        ->whereHas(
+            'category', fn($query) => $query->where('slug', $categorySlug)
+        )
+    );
+}
+````
 
 
 
