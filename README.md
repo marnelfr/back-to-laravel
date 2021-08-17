@@ -412,6 +412,18 @@ public function scopeFilter($query, $filters) {
 }
 ````
 
+### Components
+It's possible to use component with they own helpers (stole from meteor.js).
+We can create a new one using ``artisan make:component CategoryComponent``
+for example. 
+Henceforth, 
+- the component view can be found in ``\resources\components``
+- the component helper in ``\app\View\Components``. We can then
+from here, send our variable we only need in the component.
+
+It's also possible to regroup our component by directory. So
+we can have the component ``\resources\views\components\posts\author.blade.php``
+that will use through the tag ``<x-posts.author />``
 
 
 

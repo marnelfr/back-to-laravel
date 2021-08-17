@@ -23,6 +23,11 @@ class Post extends Model
             fn($query, $categorySlug) => $query
                 ->whereHas('category', fn($query) => $query->where('slug', $categorySlug))
         );
+        $query->when(
+            $filters['author'] ?? false,
+            fn($query, $author) => $query
+                ->whereHas('author', fn($query) => $query->where('username', $author))
+        );
     }
 
     public function category() {
