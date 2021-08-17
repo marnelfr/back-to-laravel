@@ -7,7 +7,7 @@
     <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About Larave
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
@@ -350,8 +350,26 @@ offers you the reactive and declarative nature of big frameworks
 like Vue or React at a much lower cost. Why not take a look at it?
 
 
+### Query scope
+It's possible to add method usable to our models:
+````injectablephp
+// Inside our Post model:
+public function scopeFilter($query, $filter) {
+    if ($filter !== '') {
+        $query->where('title', 'like', '%' . $filter . '%');
+    }
+    return $query;
+}
 
-
+// Inside our controller:
+public function index() {
+    return view('posts', [
+        'posts' => Post::latest()->filter(request['search'])->get()
+    ]);
+}
+````
+Adding the ``scopeFilter()`` method to our model allow us to use the
+``filter()`` method while loading our records.
 
 
 
