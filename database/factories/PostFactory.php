@@ -24,14 +24,11 @@ class PostFactory extends Factory
     public function definition()
     {
         $body = '';
-        foreach ($this->faker->paragraphs(5) as $paragraph) {
-            $body .= "<p>{$paragraph}</p>";
-        }
         return [
             'title' => $this->faker->sentence(3),
             'slug' => $this->faker->slug(3),
-            'excerpt' => $this->faker->sentences(4, true),
-            'body' => $body,
+            'excerpt' => collect($this->faker->paragraphs(2))->map(fn($p) => "<p>{$p}</p>")->implode(''),
+            'body' => collect($this->faker->paragraphs(5))->map(fn($p) => "<p>{$p}</p>")->implode(''),
             'user_id' => User::factory()->create(),
             'category_id' => Category::factory()->create()
         ];

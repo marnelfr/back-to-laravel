@@ -332,12 +332,15 @@ We've already used the first record, so it can be skipped:
     </p>
 @endforeach
 ````
-The ``diffForHumans()`` method can be used to make date more readable.\
-While comparing two record, we can use the ``is()`` method:
+- The ``diffForHumans()`` method can be used to make date more readable.\
+- While comparing two record, we can use the ``is()`` method:
 ````injectablephp
 $currentCategory->is($category) ? 'They have the same ID' : 'They are different records';
 ````
-
+- ``$request()->is('/particular/path')`` is used to check if we are on the 
+provided path.
+- ``$request()->routeIs('routeName')`` same as the previous but here, we're
+using the route name.
 
 
 
