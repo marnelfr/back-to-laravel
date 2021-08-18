@@ -7,5 +7,8 @@
             <p>No post publish for the moment {{ isset($currentCategory) ? 'in this category' : '' }}</p>
         </div>
     @endif
+    @if (session()->has('success'))
+        <x-flash :type="success" :message="session('success')" />
+    @endif
 </x-layout>
 

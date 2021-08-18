@@ -312,7 +312,7 @@ While using component, you can send variables via props:
 Here, we've got the first record of the ``$posts`` variable that
 will be sent to the ``post-featured-card.blade.php`` component.
 Thus, inside the component, we will refer to it:
-````html
+````injectablephp
 @props(['post'])
 ````
 We can also send attributes, and they are accessible via the ``$attributes``
@@ -455,7 +455,7 @@ instead of ``get()`` for example.
 $posts = Post::latest()->paginate(6); // or simplePaginate(6);
 ````
 Since then, we can display the pagination's links in our view using 
-````html
+````injectablephp
 {{ $posts->links() }}
 ````
 
@@ -490,10 +490,75 @@ against CSRF Attack.\
 In server side, we should also validate our inputs values.
 To do so, laravel provides the **Vadalidator** that can be used.
 Available rules can be found [here](https://laravel.com/docs/8.x/validation#available-validation-rules).
+````injectablephp
+$attributes = request()->validate([
+    'username' => 'required|min:3|max:255|unique:users,username',
+    'password' => 'required|min:3',
+    'email' => 'required|email|unique:App\Models\User'
+]);
+````
+
+### Password
+Laravel provides the ``bcrypt()`` method that's used to hash user's
+password. To check if a user entered the true password, we can use
+``Illuminate\Support\Facades\Hash::check('password', 'hashed_password')``
+method.
+
+### Mutators & Accessor
+````injectablephp
+// in app\Models\User.php
+
+// defining a mutator
+public function setPasswordAttributes($password) {
+    $this->attributes['password'] = bcrypt($password);
+}
+
+// defining an accessor
+public function getNameAttributes($name) {
+    return ucwords($name);
+}
+````
+We only define mutator and accessor we need to customize.
 
 
+### Handling errors
+We can give as default value, the last user entry
+````html
+<input name="username" value="{{ old('username') }}" />
+````
+In this case, when the validation failed, the user is redirect back
+to the form with his old values.
 
+We can handle errors per input using:
+````injectablephp
+@error('username')
+    <p>{{ $message }}</p>
+@enderror
+````
+Or regroup them this way:
+````injectablephp
+@if ($errors->any())
+    <ul>
+        @foreach ($errors as $error)
+            <li>{{ $error }}</li>    
+        @endforeach
+    </ul>
+@endif
+````
 
+### Flash messages
+We can show flash message to users:
+````injectablephp
+// Using the session
+session()->flash('success', 'User added successfully');
 
+// Using the method with()
+redirect('/')->with('success', 'User added successfully');
+````
 
-
+In blade, this can be accessed through the session as well:
+````injectablephp
+@if (session()->has('success'))
+    <p>{{ session('success') }}</p>
+@endif
+````
