@@ -483,7 +483,13 @@ We've also got the ``withQueryString()`` method that can be used
 to consider our query while changing a page.
 
 
-
+### Forms & Registration
+While setting up our forms, we shouldn't forget to include 
+inside the form tag, the ``@csrf`` input in order to preserve us
+against CSRF Attack.\
+In server side, we should also validate our inputs values.
+To do so, laravel provides the **Vadalidator** that can be used.
+Available rules can be found [here](https://laravel.com/docs/8.x/validation#available-validation-rules).
 
 
 
