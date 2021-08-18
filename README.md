@@ -33,10 +33,10 @@ Route::get('/posts/{slug}', function ($slug) {
     return view('post', [
         'title' => ucfirst($title)
     ]);
-})->where('post', '[A-z_\-]+');
+})->where('slug', '[A-z_\-]+');
 ````
 
-### Catching expensive operation
+### Catching expensive operations
 What about expensive operations? Should we run them every time
 a user tend to access a particular page that need their result? No!
 We can catch them for a while:
@@ -75,7 +75,7 @@ Go and take a look at it :)
 
 ### FileSystem management
 Do you know about the ``Illuminate\Support\Facades\File`` 
-provide by laravel ? It helps to manage file system.
+provided by laravel ? It helps to manage file system.
 
 ### Blade
 - @foreach
@@ -96,7 +96,7 @@ of information about the iteration such as
 - @yield -> @extends
 - @include
 - {{ }} to show variables 
-- {!! !!} to show html
+- {!! !!} to interpret html and show it
 
 Using components with blade need you to have a **resources/view/components**
 directory that will hold your components.\
@@ -151,7 +151,7 @@ database's users table.
 let's say in the ``$users`` variable
 - ``$users->pluck('name')`` returns a collection containing only users
 names. This is actually like doing ``$users->map(fn($user) => $user->name)``
-- ``$users->first()`` returns the first user in the collection like
+- ``$users->first()`` returns the first occurrence in the collection like
 ``$users[0]``
 - ``$user->save()`` to save a new user into the database. Returns ``true`` if succeed
 - ``$user->fresh()`` rollback to information currently in the database
@@ -219,7 +219,7 @@ public function category() {
 }
 ````
 Since then, category's information can be loaded from its related post
-and it can be accessed by ``$post->category->name``
+and it can be accessed by ``$post->category``
 
 Likewise, we can have in the category's model:
 ````injectablephp
@@ -227,8 +227,8 @@ public function posts() {
     return $this->hasMany(Post::class);
 }
 ````
-And then, we can access posts related to a category by
-``$category->posts``
+And then, we can access a collection of posts related to a 
+category using ``$category->posts``
 
 ### Clockwork
 Do you about [ClockWork](https://github.com/itsgoingd/clockwork)?
@@ -264,7 +264,7 @@ Then, while refreshing our database base, we can directly
 load our data using: ``artisan migrate:fresh --seed``
 
 ### Factories
-Using seeds may make us faster but using factories with seed can
+Using seeds may make us faster but using factories with seeds can
 boost your development. It uses ``Faker`` to generate fake data used
 to populate our tables.\
 They are located in the **database directory** and to use them, we need 
@@ -273,7 +273,7 @@ Now, inside a factory, it's possible to call another factory in order
 to create our fake data according to their relationship. But the sub-factory
 used here should be created as well.
 
-But from inside our seed, we can also overwrite some of those relationship
+But from inside our seeds, we can also overwrite some of those relationship
 factory in order to make multiple article be created by a unique user
 for example.
 
@@ -311,9 +311,9 @@ While using component, you can send variables via props:
 ````
 Here, we've got the first record of the ``$posts`` variable that
 will be sent to the ``post-featured-card.blade.php`` component.
-Thus, inside the component, will refer to it:
+Thus, inside the component, we will refer to it:
 ````html
-@props(['props'])
+@props(['post'])
 ````
 We can also send attributes, and they are accessible via the ``$attributes``
 variable and can even be merged with other attributes inside the 
@@ -321,8 +321,10 @@ components like this:
 ````injectablephp
 <div {{ $attributes->merge(['class' => 'transition-colors duration-300 hover:bg-gray-100 border border-black border-opacity-0 hover:border-opacity-5 rounded-xl']) }}></div>
 ````
+Instead of calling the ``merge()`` method, we can directly use the
+``$attributes`` variable as a function.
 
-We've already used the first record, so it can be skipped:
+If we've already used the first record, it can be skipped:
 ````injectablephp
 @foreach($posts->skip(1) as $post)
     # code...
@@ -332,8 +334,8 @@ We've already used the first record, so it can be skipped:
     </p>
 @endforeach
 ````
-- The ``diffForHumans()`` method can be used to make date more readable.\
-- While comparing two record, we can use the ``is()`` method:
+- The ``diffForHumans()`` method can be used to make date more readable.
+- While comparing two records, we can use the ``is()`` method:
 ````injectablephp
 $currentCategory->is($category) ? 'They have the same ID' : 'They are different records';
 ````
@@ -346,14 +348,14 @@ using the route name.
 
 
 
-### Alapinejs
-[Alapine.js](https://github.com/alpinejs/alpine/tree/v2.8.2) 
+### Alpinejs
+[Alpine.js](https://github.com/alpinejs/alpine/tree/v2.8.2) 
 offers you the reactive and declarative nature of big frameworks 
 like Vue or React at a much lower cost. Why not take a look at it?
 
 
 ### Query scope
-It's possible to add method usable to our models:
+It's possible to add method like ``first()``, ``where()`` usable to our models:
 ````injectablephp
 // Inside our Post model:
 public function scopeFilter($query, $filters) {
@@ -400,7 +402,7 @@ public function scopeFilter($query, $filters) {
 ````
 
 ### whereHas
-Another way using to write the previous code using ``whereHas()``:
+We've got another way used to write the previous code using ``whereHas()``:
 ````injectablephp
 public function scopeFilter($query, $filters) {
     // previous filter's code...
@@ -421,9 +423,9 @@ Henceforth,
 - the component helper in ``\app\View\Components``. We can then
 from here, send our variable we only need in the component.
 
-It's also possible to regroup our component by directory. So
+It's also possible to regroup our components by directory. So
 we can have the component ``\resources\views\components\posts\author.blade.php``
-that will use through the tag ``<x-posts.author />``
+that will use with the tag ``<x-posts.author />``
 
 
 ### OR condition's issue
@@ -438,7 +440,7 @@ $query->where(
 ````
 
 
-### Combining query
+### Combining route query
 It's possible to combine our query using the ``http_build_query()`` method.
 ````html
 <a href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category')) }}">
@@ -447,7 +449,7 @@ It's possible to combine our query using the ``http_build_query()`` method.
 ````
 
 ### Pagination
-We've got the method ``paginate($totalPerPage)`` that can be used
+We've got the method ``paginate($totalPerPage = 15)`` that can be used
 instead of ``get()`` for example.
 ````injectablephp
 $posts = Post::latest()->paginate(6); // or simplePaginate(6);
