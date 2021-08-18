@@ -562,3 +562,65 @@ In blade, this can be accessed through the session as well:
     <p>{{ session('success') }}</p>
 @endif
 ````
+
+### Login & Logout
+- ``auth()->login($user);`` to login a particular user
+- ``auth()->check()`` to check if the user is logged
+- ``auth()->logout()`` to logout the user
+- ``auth()->user()`` to get the logged user. Returns null if there is not.
+
+In blade:
+- ``@guest`` extends for ``@unless(auth()->check())``
+- ``@auth`` extends for ``@if(auth()->check())``
+- 
+
+
+
+### Middleware
+Used to add code that will be executed before user can access a certain
+route. They are located in the ``app\Http\Middleware`` and are 
+referenced in the ``app\Kernel.php``.
+Usage:
+````injectablephp
+Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
+````
+This means only guest can access to the register route. If the user
+is already logged, he'll be redirected to the home page.\
+That home page is defined in the ``RouteServiceProvider`` on the attribute
+``HOME``
+
+We've also got the **auth** middleware that make a route accessible 
+to only logged users.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

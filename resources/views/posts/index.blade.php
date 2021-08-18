@@ -8,7 +8,7 @@
         </div>
     @endif
     @if (session()->has('success'))
-        <x-flash :type="success" :message="session('success')" />
+        <x-flash :message="session('success')" />
     @endif
 </x-layout>
 

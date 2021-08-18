@@ -19,8 +19,11 @@ class RegisterController extends Controller
             'password' => 'required|min:3',
             'email' => 'required|email|unique:App\Models\User'
         ]);
-        User::create($attributes);
-        return redirect('/')->with('success', 'Registration performs successfully!');
+        $user = User::create($attributes);
+
+        auth()->login($user);
+
+        return redirect('/')->with('success', 'Your account has be created successfully!');
     }
 
 }
