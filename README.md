@@ -615,11 +615,23 @@ We've also got the **auth** middleware that make a route accessible
 to only logged users.
 
 
+### Breeze
+Laravel provides **Breeze** that help us to set up to full authentication.
+It's better to install it at the beginning of the project.\
+To do so, just after our first migration, we install it using the command:\
+``composer require laravel/breeze --dev``\
+This update our **artisan** command so now, we can install Breeze in our project
+using ``artisan breeze:install`` 
+
+It's even possible to set up Breeze with **react** or **vue** js adding
+either ``react`` or ``vue`` to the installation command.
+
+**Do not forget to install assets using npm**
 
 
-
-
-
+### Laravel Jetstream
+Not really satisfy by Breeze? Take a look at [Jetstream](https://laravel.com/docs/8.x/starter-kits#laravel-jetstream) 
+that's more powerful
 
 
 
