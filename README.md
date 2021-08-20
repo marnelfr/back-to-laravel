@@ -522,14 +522,14 @@ We only define mutator and accessor we need to customize.
 
 
 ### Handling errors
-We can give as default value, the last user entry
+We can give as default value, the last user's entry
 ````html
 <input name="username" value="{{ old('username') }}" />
 ````
 In this case, when the validation failed, the user is redirect back
 to the form with his old values.
 
-We can handle errors per input using:
+We can display errors per input using:
 ````injectablephp
 @error('username')
     <p>{{ $message }}</p>
