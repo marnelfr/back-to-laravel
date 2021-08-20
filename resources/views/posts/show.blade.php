@@ -49,13 +49,12 @@
                     {!! $post->body !!}
                 </div>
             </div>
+
             {{--Comments--}}
             <section class="col-span-8 col-start-5 mt-10 space-y-6">
-                <x-posts.comment />
-                <x-posts.comment />
-                <x-posts.comment />
-                <x-posts.comment />
-                <x-posts.comment />
+                @foreach ($post->comments as $comment)
+                    <x-posts.comment :comment="$comment" />
+                @endforeach
             </section>
         </article>
     </main>

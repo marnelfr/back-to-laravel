@@ -230,6 +230,13 @@ public function posts() {
 And then, we can access a collection of posts related to a 
 category using ``$category->posts``
 
+While setting our foreign attributes, we can set constraints and some
+cascade operations if we want:
+````injectablephp
+$table->foreignId('post_id')->constrained()->cascadeOnDelete();
+$table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete();
+````
+
 ### Clockwork
 Do you about [ClockWork](https://github.com/itsgoingd/clockwork)?
 It's used by laravel to debug things like sql as done by doctrine 
