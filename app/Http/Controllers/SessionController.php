@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class SessionController extends Controller
 {
@@ -18,12 +20,13 @@ class SessionController extends Controller
         ]);
 
         if (auth()->attempt($attributes)) {
+            session()->regenerate();
             return redirect('/')->with('success', 'Welcome back!');
         }
 
-        return back()->withErrors([
-            'email' => 'No way to get you logged'
-        ])->withInput();
+        throw ValidationException::withMessages([
+            'email' => 'No way to log you in'
+        ]);
     }
 
     public function destroy() {

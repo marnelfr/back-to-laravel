@@ -568,6 +568,28 @@ In blade, this can be accessed through the session as well:
 - ``auth()->check()`` to check if the user is logged
 - ``auth()->logout()`` to logout the user
 - ``auth()->user()`` to get the logged user. Returns null if there is not.
+- ``auth()->attempt($attributes)`` used to try to log a user in.
+While using it, better remember to regenerate the user's session id
+with ``session()->regenerate()``. This is a solution against **session
+fixation** attack.
+
+We can redirect the user back to the previous page thank to the ``back()``
+method:
+````injectablephp
+return back()->withErrors([
+    'email' => 'No way to log you in'
+])->withInput();
+````
+The ``withInput()`` method flash old value entered by the user.\
+The ``withErrors()`` method help us to send our errors messages.
+
+We can throw and **validationException** instead of using the``back()`
+method:
+````injectablephp
+throw \Illuminate\Validation\ValidationException::withMessages([
+    'email' => 'No way to log you in'
+]);
+````
 
 In blade:
 - ``@guest`` extends for ``@unless(auth()->check())``
