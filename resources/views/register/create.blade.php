@@ -14,6 +14,7 @@
 
                     <input class="border border-gray-400 p-2 w-full"
                            type="text"
+                           autofocus
                            name="name"
                            id="name"
                            value="{{ old('name') }}"

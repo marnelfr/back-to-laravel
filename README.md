@@ -642,6 +642,21 @@ Not really satisfy by Breeze? Take a look at [Jetstream](https://laravel.com/doc
 that's more powerful
 
 
+### 7 restfull actions
+They are: 
+- **index**: show all our items
+- **show**: show a single item
+- **create**: show a page to create an item
+- **store**: to persist new item
+- **edit**: show a page to edit an item
+- **update**: to persist an edition
+- **delete/destroy**: to destroy an item 
+
+It may come we'll have to use another named method in our controllers 
+but it's better to try staying with those seven as much as possible.
+
+
+
 
 
 
