@@ -575,6 +575,7 @@ In blade, this can be accessed through the session as well:
 - ``auth()->check()`` to check if the user is logged
 - ``auth()->logout()`` to logout the user
 - ``auth()->user()`` to get the logged user. Returns null if there is not.
+- ``auth()->id()`` stands for ``auth()->user()->id``
 - ``auth()->attempt($attributes)`` used to try to log a user in.
 While using it, better remember to regenerate the user's session id
 with ``session()->regenerate()``. This is a solution against **session
@@ -599,8 +600,8 @@ throw \Illuminate\Validation\ValidationException::withMessages([
 ````
 
 In blade:
-- ``@guest`` extends for ``@unless(auth()->check())``
-- ``@auth`` extends for ``@if(auth()->check())``
+- ``@guest`` stands for ``@unless(auth()->check())``
+- ``@auth`` stands for ``@if(auth()->check())``
 - 
 
 
