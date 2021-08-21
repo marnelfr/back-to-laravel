@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62b1ae4fee722d7c59a24f48d14dcdd7",
+    "content-hash": "005fe793d448e65d62a495c0b521dc0f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1525,6 +1525,61 @@
                 }
             ],
             "time": "2021-01-18T20:58:21+00:00"
+        },
+        {
+            "name": "mailchimp/marketing",
+            "version": "3.0.58",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mailchimp/mailchimp-marketing-php.git",
+                "reference": "750b2049beea9a3b74b85a7f8bc769f88453a92c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mailchimp/mailchimp-marketing-php/zipball/750b2049beea9a3b74b85a7f8bc769f88453a92c",
+                "reference": "750b2049beea9a3b74b85a7f8bc769f88453a92c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "^7.2",
+                "guzzlehttp/psr7": "^1.7 || ^2.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.12",
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "~2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MailchimpMarketing\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Mailchimp",
+                    "homepage": "https://github.com/mailchimp/mailchimp-marketing-php"
+                }
+            ],
+            "homepage": "http://swagger.io",
+            "keywords": [
+                "api",
+                "php",
+                "sdk",
+                "swagger"
+            ],
+            "support": {
+                "source": "https://github.com/mailchimp/mailchimp-marketing-php/tree/v3.0.58"
+            },
+            "time": "2021-08-16T19:36:27+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7938,7 +7993,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3|^8.0"
+        "php": "^7.4|^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"

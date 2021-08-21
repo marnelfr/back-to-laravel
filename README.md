@@ -656,9 +656,22 @@ It may come we'll have to use another named method in our controllers
 but it's better to try staying with those seven as much as possible.
 
 
+### Config
+When you add your key to the ``.env`` file, you can also add them to the 
+configs files.\
+Config files are located in the ``\config`` directory, and we can even add new
+config's files.\
+Let's take a look at inside a config file, they basically return an associative array:
+````injectablephp
+return [
+    'key1' =>  'value1',
+    'key2' => [
+        'sousKey21' => 'valueSousKey21'
+    ]   
+];
+````
 
-
-
+Our values can be accessed through ``config('configFileName.key2.sousKey21')``
 
 
 
