@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\MailChimpNewsletter;
 use App\Services\Newsletter;
 use Exception;
 use Illuminate\Http\RedirectResponse;

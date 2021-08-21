@@ -674,9 +674,37 @@ return [
 Our values can be accessed through ``config('configFileName.key2.sousKey21')``
 
 
+### The container
+So we're able to inject some classes we want to use in our Controllers
+and others classes as well. That's because they are binded in the 
+container.
+So when we inject a variable into our methods, laravel start looking at
+the container. If there is not any reference to our injected variable,
+the framework then go to take a look at the class and see if it can instanciate
+it. If its constructor has some injected variable also, it tries recursively
+to instantiate them. But if it comes across a parameter it can't provide 
+a value to, it throws a **BindingResolutionException** because it can't then
+instantiate the injected value.
 
-
-
+So now, to bind a service to the container, we use the ``register()`` method of 
+the ``AppServiceProvider``:
+````injectablephp
+public function register()
+{
+    app()->bind(Newsletter::class, function() {
+        $client = (new ApiClient())->setConfig([
+            'apiKey' => config('services.mailchimp.key'),
+            'server' => config('services.mailchimp.server')
+        ]);
+        return (new MailChimpNewsletter($client));
+    });
+}
+````
+Here, we're binding the ``Newsletter interface`` by instantiating the 
+``MailChimpNewsletter class``. So the only place we're referencing to
+our MailChimpNewsletter will be in our ``AppServiceProvide``.
+In other places in our application, we'll only inject our ``Newsletter interface``
+and this will work. 
 
 
 
