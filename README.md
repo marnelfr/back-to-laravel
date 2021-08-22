@@ -501,6 +501,7 @@ Available rules can be found [here](https://laravel.com/docs/8.x/validation#avai
 $attributes = request()->validate([
     'username' => 'required|min:3|max:255|unique:users,username',
     'password' => 'required|min:3',
+    'slug' => ['required', Rule::unique('posts', 'slug')],
     'email' => 'required|email|unique:App\Models\User'
 ]);
 ````
