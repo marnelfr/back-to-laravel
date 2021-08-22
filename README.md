@@ -676,11 +676,11 @@ Our values can be accessed through ``config('configFileName.key2.sousKey21')``
 
 ### The container
 So we're able to inject some classes we want to use in our Controllers
-and others classes as well. That's because they are binded in the 
+and others classes as well. That's because they are bound in the 
 container.
 So when we inject a variable into our methods, laravel start looking at
 the container. If there is not any reference to our injected variable,
-the framework then go to take a look at the class and see if it can instanciate
+the framework then go to take a look at the class and see if it can instantiate
 it. If its constructor has some injected variable also, it tries recursively
 to instantiate them. But if it comes across a parameter it can't provide 
 a value to, it throws a **BindingResolutionException** because it can't then
@@ -705,6 +705,49 @@ Here, we're binding the ``Newsletter interface`` by instantiating the
 our MailChimpNewsletter will be in our ``AppServiceProvide``.
 In other places in our application, we'll only inject our ``Newsletter interface``
 and this will work. 
+
+We can retrieve information from the container using ``app()->get('key')``
+or the ``resolve('key')`` function.
+
+Once we create our middleware, it should be added to the ``\app\Http\Kernel.php`` file.
+
+Sometimes, it may need to make a ``composer dump-autoload`` if you newly
+bound class is not correctly working.
+
+
+### Admin section
+To check if a particular user can access to a particular route, we can use
+middleware.\
+``artisan make:middleware MiddleWareName`` to add a new one.\
+Now inside our middlewares, we can ``redirect($path)`` to another path,
+``abort($errorCode)`` a specific error (like 403 for forbidden).\
+````injectablephp
+public function handle(Request $request, Closure $next) {
+    if(auth()->guest()) abort(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
+    return $next($request);
+}
+````
+Since most of the time, we've got more than one middleware per route, 
+``$next($request)`` is for kinda saying **Ok, I'm done. If it's only up to me,
+he can access the route**. Then the **next** middleware will start its job.
+The user only access to the route only it every middleware concerned by the route 
+is ok to let him go.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
