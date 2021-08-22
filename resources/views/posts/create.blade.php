@@ -3,7 +3,7 @@
         <main class="max-w-lg mx-auto mt-10 bg-gray-100 border border-gray-200 p-6 rounded-xl">
             <h1 class="text-center font-bold text-xl">New Post!</h1>
 
-            <form method="POST" action="/admin/posts" class="mt-10">
+            <form method="POST" action="/admin/posts" class="mt-10" enctype="multipart/form-data">
 
                 @csrf
 
@@ -75,6 +75,23 @@
                     </select>
 
                     @error('category_id')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-6">
+                    <label class="block mb-2 font-bold text-xs text-gray-700" for="thumbnail">
+                        Thumbnail
+                    </label>
+
+                    <input class="border border-gray-400 p-2 w-full"
+                           type="file"
+                           name="thumbnail"
+                           id="thumbnail"
+                           value="{{ old('thumbnail') }}"
+                           required
+                    >
+                    @error('thumbnail')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>

@@ -734,6 +734,13 @@ he can access the route**. Then the **next** middleware will start its job.
 The user only access to the route only it every middleware concerned by the route 
 is ok to let him go.
 
+### Upload files
+Add ``enctype="multipart/form-data"`` to the form to make it able to send file.\
+``request()->file('fileInputName')`` is used to access to the file uploaded.\
+``$path = request()->file('fileInputName')->store($path)`` used save the file using
+one of the **fileSystemDrive**. Better use the ``public`` driver that can be 
+chosen in the ``\config\filessystems.php`` file.\
+It returns the ``$path`` of the file that can be saved on the related record.
 
 
 
