@@ -320,16 +320,22 @@ Here, we've got the first record of the ``$posts`` variable that
 will be sent to the ``post-featured-card.blade.php`` component.
 Thus, inside the component, we will refer to it:
 ````injectablephp
-@props(['post'])
+@props(['post', 'type' => 'text'])
 ````
+The ``type`` key added is just to let us know that we can set default value
+to our props. So if the ``type`` attribute is not set, its value will be **text**.
+
+
 We can also send attributes, and they are accessible via the ``$attributes``
 variable and can even be merged with other attributes inside the 
 components like this:
 ````injectablephp
-<div {{ $attributes->merge(['class' => 'transition-colors duration-300 hover:bg-gray-100 border border-black border-opacity-0 hover:border-opacity-5 rounded-xl']) }}></div>
+<div {{ $attributes->merge(['class' => 'transition-colors duration-300']) }}></div>
 ````
 Instead of calling the ``merge()`` method, we can directly use the
-``$attributes`` variable as a function.
+``$attributes`` variable as a function.\
+We can even have ``<div {{ $attributes }}></div>``. In this case, any other attribute
+can be set to our component while using it.
 
 If we've already used the first record, it can be skipped:
 ````injectablephp
@@ -504,6 +510,20 @@ $attributes = request()->validate([
     'slug' => ['required', Rule::unique('posts', 'slug')],
     'email' => 'required|email|unique:App\Models\User'
 ]);
+````
+
+If we are doing an update, we should consider ignoring our current record:
+``Rule::unique('posts', 'slug')->ignore($post->id)`` (or just ``$post`` to the 
+``ignore`` method) and specify the ``@method('PATCH')`` in order to let 
+laravel know we're not doing a post request but a patch one.
+
+To add a delete form, we should do something like:
+````html
+<form method="POST" action="/admin/posts/{{ $post->id }}">
+    @csrf
+    @method('DELETE')
+    <button class="text-xs text-gray-400">Delete</button>
+</form>
 ````
 
 ### Password
@@ -743,25 +763,113 @@ chosen in the ``\config\filessystems.php`` file.\
 It returns the ``$path`` of the file that can be saved on the related record.
 
 
+### Some tricks
+````html
+<span>{{ $slot ?? old($name) }}</span>
+````
+Here, we are showing the value of ``old($name)`` if there is not ``$slot``
+provided.
+
+````html
+<x-dropdown href="/posts/1" :active="request()->is('/posts/1')">Dashboard</x-dropdown>
+````
+While using components, ``href`` is a simple attribute while ``:href`` can
+be used to provide php expression that will be interpreted.
 
 
+````injectablephp
+protected function validatePost(?Post $post = null): array {
+    $post ??= new Post();
+    return request()->validate([
+        'title' => 'required',
+        'thumbnail' => $post->exists ? ['image'] : ['required', 'image'],
+        'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post)],
+        'category_id' => ['required', Rule::exists('categories', 'id')],
+    ]);
+}
+````
+
+It may be usable to add an ``validatePost()`` method to our controller in 
+order to not repeat ourselves. Here, using PHP8, we're considering the case
+we could use our ``validatePost`` method for both creation and updating post.
 
 
+### Gates
+In the ``boot`` method of our ``AppServiceProvider``, we can add a **Gates**
+directive:
+````injectablephp
+Gate::define('admin', function (User $user) {
+    return $user->role === 'Admin';
+});
+````
+Since that's done, we can then check if our logged user is allowed by the 
+Gates using
+- ``Gate::allows('admin')`` => execute the closure used to defined our Gate
+- ``request()->user()->can('admin')`` => stand for ``Gate::allows('admin')``
+- ``request()->user()->cannot('admin')`` => stand for ``! Gate::allows('admin')``
+- ``$this->authorize('admin')`` => execute the closure and abort an ``403`` error
+if it returns false.
+
+**In our template**\
+````injectablephp
+@if (auth()->user()->can('admin'))
+    /*showing thing or not*/
+@endif
+````
+Or use the ``@can`` directive that do the same job:
+````injectablephp
+@can('admin')
+    /*showing thing or not*/
+@endcan
+````
+
+It's possible to use a Gate directive as middleware thanks to the ``can`` middleware:
+````injectablephp
+
+Route::post('admin/posts', [PostController::class, 'store'])->middleware('can:admin');
+````
 
 
+### Custom Blade directive
+We can even create a custom directive in the ``boot()`` method of our 
+``AppServiceProvider`` doing:
+````injectablephp
+Blade::if('admin', function () {
+    return request()->user()?->can('admin');
+});
+````
+Notice the ``?`` used in PHP8 who is the **null safe operator**. This is 
+important just in case there is not a singing user: kinda cheking if there 
+is a logged user before doing our comparison.
+
+Since then, can do something like this in our template:
+````injectablephp
+@admin('admin')
+    /*showing thing or not*/
+@admin
+````
+
+We can regroup route and apply to them a same middleware:
+````injectablephp
+Route::middleware('can:admin')->group(function () {
+    Route::get('admin/posts', [AdminPostController::class, 'index']);
+    Route::get('admin/posts/1', [AdminPostController::class, 'show']);
+});
+````
+
+``artisan route:list`` shows all route in our application with their applied
+middleware and even their name.
 
 
-
-
-
-
-
-
-
-
-
-
-
+### Using resource directive
+````injectablephp
+Route::middleware('can:admin')->group(function () {
+    Route::resource('admin/posts', AdminPostController::class)->except('show');
+});
+````
+Using the resource directive, we can creat routes for the seven 
+action for a resource for a controller.\
+Using the ``except()`` method, we can except those we don't need.
 
 
 

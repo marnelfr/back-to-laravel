@@ -21,10 +21,7 @@
                 @enderror
             </div>
             <div class="flex justify-end mt-6 pt-6 border-t border-gray-200">
-                <button
-                    class="bg-blue-300 focus:bg-blue-600 hover:bg-blue-600 px-10 py-2 rounded-2xl text-xs uppercase">
-                    Post
-                </button>
+                <x-form.button>Submit</x-form.button>
             </div>
         </form>
     </x-panel>

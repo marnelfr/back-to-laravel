@@ -7,100 +7,25 @@
 
                 @csrf
 
-                <div class="mb-6">
-                    <label class="block mb-2 font-bold text-xs text-gray-700" for="title">
-                        Title
-                    </label>
+                <x-form.input name="title" />
+                <x-form.input name="slug" />
+                <x-form.textarea name="excerpt" />
+                <x-form.textarea name="body" />
 
-                    <input class="border border-gray-400 p-2 w-full"
-                           type="text"
-                           autofocus
-                           name="title"
-                           id="title"
-                           value="{{ old('title') }}"
-                           required
-                    >
-                    @error('title')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-form.input name="thumbnail" type="file" />
 
-                <div class="mb-6">
-                    <label class="block mb-2 font-bold text-xs text-gray-700" for="slug">
-                        Slug
-                    </label>
-
-                    <input class="border border-gray-400 p-2 w-full"
-                           type="text"
-                           name="slug"
-                           id="slug"
-                           value="{{ old('slug') }}"
-                           required
-                    >
-                    @error('slug')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label class="block mb-2 font-bold text-xs text-gray-700" for="excerpt">
-                        Excerpt
-                    </label>
-                    <textarea name="excerpt" id="excerpt" cols="30" rows="10" spellcheck="false" class="h-16 w-full">{{ old('excerpt') }}</textarea>
-                    @error('excerpt')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label class="block mb-2 font-bold text-xs text-gray-700" for="body">
-                        Body
-                    </label>
-                    <textarea name="body" id="body" cols="30" rows="10" spellcheck="false" class="h-32 w-full">{{ old('body') }}</textarea>
-                    @error('body')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label class="block mb-2 font-bold text-xs text-gray-700" for="category_id">
-                        Category
-                    </label>
-
+                <x-form.field>
+                    <x-form.label name="category" />
                     <select class="h-10 w-full" name="category_id" id="category_id">
                         <option value="">Category</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
+                    <x-form.error name="category"/>
+                </x-form.field>
 
-                    @error('category_id')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label class="block mb-2 font-bold text-xs text-gray-700" for="thumbnail">
-                        Thumbnail
-                    </label>
-
-                    <input class="border border-gray-400 p-2 w-full"
-                           type="file"
-                           name="thumbnail"
-                           id="thumbnail"
-                           value="{{ old('thumbnail') }}"
-                           required
-                    >
-                    @error('thumbnail')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <button type="submit" class="bg-blue-400 text-white rounded py-2 px-4 hover:bg-blue-500">
-                        Publish
-                    </button>
-                </div>
+                <x-form.button>Publish</x-form.button>
             </form>
         </main>
     </section>
