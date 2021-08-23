@@ -14,6 +14,12 @@ Route::post('posts/{post:slug}/comment', [PostCommentsController::class, 'store'
 
 Route::post('newsletter', NewsletterContoller::class);
 
+Route::get('welcome', function () {
+    if (auth()->check()) {
+        ddd('ok');
+    }
+});
+
 Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
 Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
 

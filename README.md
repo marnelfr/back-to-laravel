@@ -7,7 +7,7 @@
     <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Larave
+## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
@@ -24,8 +24,8 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 ## Learning Laravel
 
 ### Adding constraints to our route parameters
-We can add constraints to our route parameters using `where`
-or `whereAlpha` or other things like that:
+We can add constraints to our route parameters using `whereNumber`, `whereAlpha`,... 
+or use custom regular expressions with ``where``:
 ````injectablephp
 
 Route::get('/posts/{slug}', function ($slug) {
@@ -100,10 +100,11 @@ of information about the iteration such as
 
 Using components with blade need you to have a **resources/view/components**
 directory that will hold your components.\
-Refer to your components using the tage ``x-componentName``
+Refer to your components using the tage ``x-componentFileName``
 
 views/components/layout.blade.php:
 ````html
+<!--before the body-->
 <body>
     {{ $content }}
 </body>
@@ -230,7 +231,7 @@ public function posts() {
 And then, we can access a collection of posts related to a 
 category using ``$category->posts``
 
-While setting our foreign attributes, we can set constraints and some
+While setting our foreign attributes, we can set constrained and some
 cascade operations if we want:
 ````injectablephp
 $table->foreignId('post_id')->constrained()->cascadeOnDelete();
@@ -323,11 +324,11 @@ Thus, inside the component, we will refer to it:
 @props(['post', 'type' => 'text'])
 ````
 The ``type`` key added is just to let us know that we can set default value
-to our props. So if the ``type`` attribute is not set, its value will be **text**.
+to our props. So if the ``type`` attribute is missed, its value will be **text**.
 
 
 We can also send attributes, and they are accessible via the ``$attributes``
-variable and can even be merged with other attributes inside the 
+variable and can even be merged with some default values inside the 
 components like this:
 ````injectablephp
 <div {{ $attributes->merge(['class' => 'transition-colors duration-300']) }}></div>
@@ -386,7 +387,7 @@ public function index() {
 ````
 Adding the ``scopeFilter()`` method to our model allow us to use the
 ``filter()`` method while loading our records.\
-However, the query builder offers us the ``when()`` method
+Likewise, the query builder offers us the ``when()`` method
 that we can use to simplify our scope body. Using it, our scope filter
 will become:
 ````injectablephp
@@ -490,7 +491,7 @@ public function boot()
 We can even customize the template used by laravel to display
 our pages' links. To do so, let's publish them first using:
 ``artisan vendor:publish``.\
-Then we've got the choose the **Tag: laravel-pagination**
+Then we've got to choose the **Tag: laravel-pagination**
 
 We've also got the ``withQueryString()`` method that can be used
 to consider our query while changing a page.
@@ -513,9 +514,9 @@ $attributes = request()->validate([
 ````
 
 If we are doing an update, we should consider ignoring our current record:
-``Rule::unique('posts', 'slug')->ignore($post->id)`` (or just ``$post`` to the 
+``Rule::unique('posts', 'slug')->ignore($post->id)`` (we can just pass ``$post`` to the 
 ``ignore`` method) and specify the ``@method('PATCH')`` in order to let 
-laravel know we're not doing a post request but a patch one.
+laravel know we're not doing a **POST** request but a **PATCH** one.
 
 To add a delete form, we should do something like:
 ````html
@@ -593,7 +594,7 @@ In blade, this can be accessed through the session as well:
 
 ### Login & Logout
 - ``auth()->login($user);`` to login a particular user
-- ``auth()->check()`` to check if the user is logged
+- ``auth()->check()`` to check if there is an authenticated user.
 - ``auth()->logout()`` to logout the user
 - ``auth()->user()`` to get the logged user. Returns null if there is not.
 - ``auth()->id()`` stands for ``auth()->user()->id``
@@ -623,7 +624,6 @@ throw \Illuminate\Validation\ValidationException::withMessages([
 In blade:
 - ``@guest`` stands for ``@unless(auth()->check())``
 - ``@auth`` stands for ``@if(auth()->check())``
-- 
 
 
 
@@ -636,18 +636,18 @@ Usage:
 Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
 ````
 This means only guest can access to the register route. If the user
-is already logged, he'll be redirected to the home page.\
+is already logged, he'll be redirected to the home page.
 That home page is defined in the ``RouteServiceProvider`` on the attribute
 ``HOME``
 
-We've also got the **auth** middleware that make a route accessible 
+We've also got the **auth** middleware that makes a route accessible 
 to only logged users.
 
 
 ### Breeze
 Laravel provides **Breeze** that help us to set up to full authentication.
 It's better to install it at the beginning of the project.\
-To do so, just after our first migration, we install it using the command:\
+To do so, just after our first migration, we can install it using the command:\
 ``composer require laravel/breeze --dev``\
 This update our **artisan** command so now, we can install Breeze in our project
 using ``artisan breeze:install`` 
@@ -725,12 +725,10 @@ Here, we're binding the ``Newsletter interface`` by instantiating the
 ``MailChimpNewsletter class``. So the only place we're referencing to
 our MailChimpNewsletter will be in our ``AppServiceProvide``.
 In other places in our application, we'll only inject our ``Newsletter interface``
-and this will work. 
+and we're ready to go. 
 
 We can retrieve information from the container using ``app()->get('key')``
-or the ``resolve('key')`` function.
-
-Once we create our middleware, it should be added to the ``\app\Http\Kernel.php`` file.
+or the ``resolve('key')`` function (instead of making an injection maybe).
 
 Sometimes, it may need to make a ``composer dump-autoload`` if you newly
 bound class is not correctly working.
@@ -738,10 +736,10 @@ bound class is not correctly working.
 
 ### Admin section
 To check if a particular user can access to a particular route, we can use
-middleware.\
+middleware.
 ``artisan make:middleware MiddleWareName`` to add a new one.\
 Now inside our middlewares, we can ``redirect($path)`` to another path,
-``abort($errorCode)`` a specific error (like 403 for forbidden).\
+``abort($errorCode)`` a specific error (like 403 for forbidden), ...
 ````injectablephp
 public function handle(Request $request, Closure $next) {
     if(auth()->guest()) abort(\Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN);
@@ -753,6 +751,9 @@ Since most of the time, we've got more than one middleware per route,
 he can access the route**. Then the **next** middleware will start its job.
 The user only access to the route only it every middleware concerned by the route 
 is ok to let him go.
+
+Once we create our middleware, it should be added to the ``\app\Http\Kernel.php`` file.
+
 
 ### Upload files
 Add ``enctype="multipart/form-data"`` to the form to make it able to send file.\
@@ -810,7 +811,7 @@ Gates using
 - ``$this->authorize('admin')`` => execute the closure and abort an ``403`` error
 if it returns false.
 
-**In our template**\
+**In our template**
 ````injectablephp
 @if (auth()->user()->can('admin'))
     /*showing thing or not*/
