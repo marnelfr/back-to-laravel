@@ -23,6 +23,24 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Learning Laravel
 
+### Installing a laravel app using SAIL
+``curl -s https://laravel.build/example-app | bash`` can be used to install 
+a laravel app in the **example-app** directory.\
+Once installed, ``cd example-app`` can be used to access the app's directory 
+and then, using ``./vendor/bin/sail up -d`` we can start our app that will be
+accessible on ``localhost``.\
+Possible to add ``example-app.test`` to our hosts file in order to access to our
+app through that url.
+
+
+### Adding SAIL to an existing app
+- ``composer require laravel/sail --dev``
+- ``php artisan sail:install``
+- ``./vendor/bin/sail up``
+
+We can create an alias to make sail easier to use.
+
+
 ### Adding constraints to our route parameters
 We can add constraints to our route parameters using `whereNumber`, `whereAlpha`,... 
 or use custom regular expressions with ``where``:
@@ -873,6 +891,13 @@ action for a resource for a controller.\
 Using the ``except()`` method, we can except those we don't need.
 
 
+### Using named routes
+Since we can name our route, we can also reference to them using their
+name in our views using the ```route()``` method.
+````angular2html
+<a href="{{ route('posts.show', ['post_id' => 5]) }}"></a>
+<a href="{{ route('posts.show', [5]) }}"></a>
+````
 
 
 
