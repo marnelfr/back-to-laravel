@@ -751,6 +751,7 @@ or the ``resolve('key')`` function (instead of making an injection maybe).
 Sometimes, it may need to make a ``composer dump-autoload`` if you newly
 bound class is not correctly working.
 
+Why not take a look at [MailChimp](https://mailchimp.com/developer/marketing/api/list-member-goal/)?
 
 ### Admin section
 To check if a particular user can access to a particular route, we can use
@@ -863,7 +864,7 @@ is a logged user before doing our comparison.
 
 Since then, can do something like this in our template:
 ````injectablephp
-@admin('admin')
+@admin()
     /*showing thing or not*/
 @admin
 ````
