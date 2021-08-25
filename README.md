@@ -366,7 +366,8 @@ If we've already used the first record, it can be skipped:
     </p>
 @endforeach
 ````
-- The ``diffForHumans()`` method can be used to make date more readable.
+- The ``diffForHumans()`` method can be used to make date more readable. 
+Instead, we can also use ``format('F j, Y, g:i a')``
 - While comparing two records, we can use the ``is()`` method:
 ````injectablephp
 $currentCategory->is($category) ? 'They have the same ID' : 'They are different records';
@@ -814,6 +815,30 @@ order to not repeat ourselves. Here, using PHP8, we're considering the case
 we could use our ``validatePost`` method for both creation and updating post.
 
 
+### Custom request
+Instead of using the ```validatePost()``` method, we can create a custom request
+using ``artisan make:request PostRequest``.\
+The validation rules are then set in the ``rules`` method.\
+Here, while doing a ``PATCH`` request, we can access the current post through
+the name of the injected variable:
+````injectablephp
+// \routes\web.php
+Route::patch('admin/posts/{post:slug}', [PostController::class, 'update']);
+
+// in the PostController
+// $post contains the current post because its name match the route key 'post'
+public function update(PostRequest $request, Post $post) {
+    // code for the $post edition...
+}
+
+// in the PostRequest
+public function rules()
+{
+    // here $this->post contains the current post because the injected variable contains the current post.
+}
+````
+
+
 ### Gates
 In the ``boot`` method of our ``AppServiceProvider``, we can add a **Gates**
 directive:
@@ -899,6 +924,7 @@ name in our views using the ```route()``` method.
 <a href="{{ route('posts.show', ['post_id' => 5]) }}"></a>
 <a href="{{ route('posts.show', [5]) }}"></a>
 ````
+
 
 
 

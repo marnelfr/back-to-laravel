@@ -23,21 +23,4 @@ class PostController extends Controller
         return view('posts.show', compact('post'));
     }
 
-    public function create () {
-        return view('posts.create', [
-            'categories' => Category::all()
-        ]);
-    }
-
-    public function store (PostRequest $request) {
-        $attributes = $request->except(['thumbnail']);
-
-        $attributes['user_id'] = auth()->id();
-        $attributes['publish_at'] = now();
-        $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnail');
-
-        Post::create($attributes);
-
-        return redirect('/')->with('success', 'Post create successfully');
-    }
 }

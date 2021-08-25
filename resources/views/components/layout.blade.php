@@ -28,14 +28,19 @@
                     @csrf
                     <input type="submit" class="bg-white cursor-pointer font-bold hover:text-blue-300 ml-6 text-xs uppercase" value="Logout">
                 </form>
+
+                <a href="{{ route('dashboard') }}" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                    Dashboard
+                </a>
             @else
                 <a href="/register" class="text-xs font-bold uppercase">Register</a>
                 <a href="/login" class="ml-6 text-xs font-bold uppercase">Login</a>
+
+                <a href="#newsletter-form" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                    Subscribe for Updates
+                </a>
             @endauth
 
-            <a href="#newsletter-form" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
-                Subscribe for Updates
-            </a>
         </div>
     </nav>
 
