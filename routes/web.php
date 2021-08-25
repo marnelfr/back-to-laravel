@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\NewsletterContoller;
 use App\Http\Controllers\PostCommentsController;
 use App\Http\Controllers\PostController;
@@ -18,7 +19,8 @@ Route::get('welcome', function () {
     if (auth()->check()) {
         ddd('ok');
     }
-});
+})->name('settings');
+Route::get('user', function (){ddd('ok');})->name('user');
 
 Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
 Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
@@ -27,5 +29,9 @@ Route::get('login', [SessionController::class, 'create'])->middleware('guest');
 Route::post('login', [SessionController::class, 'store'])->middleware('guest');
 Route::post('logout', [SessionController::class, 'destroy'])->middleware('auth');
 
-Route::get('admin/posts/create', [PostController::class, 'create'])->middleware('admin');
+Route::get('admin/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware('admin');
 Route::post('admin/posts', [PostController::class, 'store'])->middleware('admin');
+
+Route::middleware('admin')->group(function () {
+    Route::get('admin', [AdminPostController::class, 'index'])->name('dashboard');
+});

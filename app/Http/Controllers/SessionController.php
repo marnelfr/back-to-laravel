@@ -21,6 +21,9 @@ class SessionController extends Controller
 
         if (auth()->attempt($attributes)) {
             session()->regenerate();
+            if (auth()->user()->username === 'marnel') {
+                return redirect()->route('dashboard')->with('success', 'Welcome back!');
+            }
             return redirect('/')->with('success', 'Welcome back!');
         }
 

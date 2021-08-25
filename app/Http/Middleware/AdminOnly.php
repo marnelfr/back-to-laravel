@@ -17,9 +17,11 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->username !== 'marnel') {
+        if (auth()->user()?->username !== 'marnel') {
 //            abort(Response::HTTP_FORBIDDEN);
-            return redirect('/')->with('warning', 'You are not authorized to access the admin panel');
+            return redirect('/login');
+        } elseif (request()->routeIs('login')) {
+            return redirect()->route('dashboard')->with('success', 'Welcome back ' . auth()->user()->username);
         }
 
         return $next($request);
