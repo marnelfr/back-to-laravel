@@ -154,8 +154,52 @@ public function posts() {
 ````
 
 
+### Polymorphic relationship
+It is a kind of **One-to-One** or **One-to-Many** relationship but here, 
+we don't really know about the second model. So we can refer to it by a polymorphism.\
+Example: let's imagine our users can post video. Sometimes, videos can belong to
+a giving series, **XOR**, to a collection (not really a series).
+- videos(id, title, description, url)
+- series(id, name, description)
+- collection(id, name)
+
+Let's start with a classic **One-to-Many** relationship:
+````injectablephp
+// in Video model:
+public function series() {
+    return $this->belongsTo(Series::class);
+}
+
+// in Series model:
+public function videos() {
+    return $this->hasMany(Video::class);
+}
+````
+
+Now, a polymorphic relationship that will make our Collection model comes in:
+
+````injectablephp
+// in Video's migration:
+// $table->foreignId('series_id');
+$table->morphs('watchable'); // will add watchable_type and watchable_id columns
 
 
+// in Video model:
+public function parent() {
+    //no need to provide a parameter if the  
+    return $this->morphTo('watchable'); 
+}
+
+// in Series model:
+public function videos() {
+    return $this->morphMany(Video::class, 'watchable');
+}
+
+// in Collection model:
+public function videos() {
+    return $this->morphMany(Video::class, 'watchable');
+}
+````
 
 
 

@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Collection;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -32,5 +34,17 @@ class DatabaseSeeder extends Seeder
         Post::factory(18)->create([
             'category_id' => $category->id
         ]);
+
+        Collection::factory(7)->create();
+
+        Video::factory(7)->create();
+
+        for ($i = 0; $i<6; $i++) {
+            Video::factory(2)->create([
+                'watchable_type' => Collection::class,
+                'watchable_id' => Collection::inRandomOrder()->first()
+            ]);
+        }
+
     }
 }
