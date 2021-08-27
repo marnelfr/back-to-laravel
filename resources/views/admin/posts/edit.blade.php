@@ -5,7 +5,7 @@
         <main class="max-w-lg mx-auto mt-10 bg-gray-100 border border-gray-200 p-6 rounded-xl">
             <h1 class="text-center font-bold text-xl">Edit Post!</h1>
 
-            <form method="POST" action="{{ route('posts.update', $post) }}">
+            <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
 

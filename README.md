@@ -809,11 +809,14 @@ protected function validatePost(?Post $post = null): array {
     ]);
 }
 ````
-
 It may be usable to add an ``validatePost()`` method to our controller in 
 order to not repeat ourselves. Here, using PHP8, we're considering the case
 we could use our ``validatePost`` method for both creation and updating post.
 
+````injectablephp
+$user = User::inRandomOrder()->first();
+````
+Helpful to get a random record from a table.
 
 ### Custom request
 Instead of using the ```validatePost()``` method, we can create a custom request
@@ -926,7 +929,8 @@ name in our views using the ```route()``` method.
 ````
 
 
-
+### Eloquent relationships
+Let's get focus on [Eloquent](Eloquent.md)
 
 
 
