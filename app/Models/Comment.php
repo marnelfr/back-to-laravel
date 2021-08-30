@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Likable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
     use HasFactory;
+    use Likable;
 
     protected $guarded = [];
 
@@ -17,13 +19,5 @@ class Comment extends Model
 
     public function author() {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function likes() {
-        return $this->belongsToMany(User::class)->withTimestamps();
-    }
-
-    public function like() {
-        $this->likes()->attach(auth()->user());
     }
 }

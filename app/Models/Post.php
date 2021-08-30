@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Likable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
     use HasFactory;
+    use Likable;
 
     protected $with = ['author', 'category'];
 
@@ -48,22 +50,6 @@ class Post extends Model
 
     public function tags () {
         return $this->belongsToMany(Tag::class)->withTimestamps()->withPivot('main');
-    }
-
-    public function likes() {
-        return $this->belongsToMany(User::class)
-            ->as('liked')
-            ->withTimestamps();
-    }
-
-    public function like (?User $user = null) {
-        $user ??= auth()->user();
-        $this->likes()->attach($user);
-    }
-
-    public function dislike (?User $user = null) {
-        $user ??= auth()->user();
-        $this->likes()->detach($user);
     }
 
 }

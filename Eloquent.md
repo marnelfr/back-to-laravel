@@ -202,6 +202,16 @@ public function videos() {
 ````
 
 
+### Many-to-Many Polymorphic
+Using polymorphic with many-to-many can be needed in case we're dealing
+with a model that can perform the same action on different models. In instance,
+we've got user who can like on a post, or a comment.\
+Here, **post** and **comment** are **likable**.\
+So we most of the time think about a many-to-many with polymorphism when a
+**__able** model such as
+- likable
+- countable
+- taggable
 
 
 

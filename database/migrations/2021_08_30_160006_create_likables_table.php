@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommentUserTable extends Migration
+class CreateLikablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCommentUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('comment_user', function (Blueprint $table) {
+        Schema::create('likables', function (Blueprint $table) {
+            $table->primary(['user_id', 'likable_id', 'likable_type']);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('comment_id')->constrained('comments')->cascadeOnDelete();
-            $table->primary(['user_id', 'comment_id']);
+            $table->morphs('likable');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateCommentUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comment_user');
+        Schema::dropIfExists('likables');
     }
 }
