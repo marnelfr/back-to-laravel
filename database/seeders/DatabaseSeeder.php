@@ -20,14 +20,16 @@ class DatabaseSeeder extends Seeder
     {
         $user = User::factory()->create([
             'name' => 'Marnel Gnacadja',
-            'username' => 'marnelfr'
+            'username' => 'marnel',
+            'email' => 'nel@net.fr',
+            'password' => 'secret'
         ]);
         $category = Category::factory()->create([
             'name' => 'Hobbies',
             'slug' => 'hobbies'
         ]);
 
-        Post::factory(2)->create([
+        Post::factory(5)->create([
             'user_id' => $user->id
         ]);
         Post::factory(5)->create();

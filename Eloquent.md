@@ -130,7 +130,7 @@ throw a QueryException (in with this such of set up) when we try to attach the s
 Our pivot table may have more attributes. For this purpose, let uncomment the
 boolean line in our migration's ``up()`` function. Thus, we'll have to add to 
 our ``posts()`` and ``tags()`` methods' code: ``->withPivot('main')``. It will
-receive a table if it's more than one column.
+receive an array if it's more than one column.
 
 - ``$tag->posts()->attach($post, ['main' => true]);`` will then used to attach
 
@@ -158,7 +158,7 @@ public function posts() {
 It is a kind of **One-to-One** or **One-to-Many** relationship but here, 
 we don't really know about the second model. So we can refer to it by a polymorphism.\
 Example: let's imagine our users can post video. Sometimes, videos can belong to
-a giving series, **XOR**, to a collection (not really a series).
+a giving series **XOR** to a collection (not really a series).
 - videos(id, title, description, url)
 - series(id, name, description)
 - collection(id, name)

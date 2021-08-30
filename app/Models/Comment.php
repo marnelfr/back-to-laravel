@@ -18,4 +18,12 @@ class Comment extends Model
     public function author() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function likes() {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    public function like() {
+        $this->likes()->attach(auth()->user());
+    }
 }

@@ -50,4 +50,20 @@ class Post extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps()->withPivot('main');
     }
 
+    public function likes() {
+        return $this->belongsToMany(User::class)
+            ->as('liked')
+            ->withTimestamps();
+    }
+
+    public function like (?User $user = null) {
+        $user ??= auth()->user();
+        $this->likes()->attach($user);
+    }
+
+    public function dislike (?User $user = null) {
+        $user ??= auth()->user();
+        $this->likes()->detach($user);
+    }
+
 }
