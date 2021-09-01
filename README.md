@@ -21,6 +21,14 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Insights
+It may be a good habit to use the [PHP Insights](https://github.com/nunomaduro/phpinsights) 
+to check your code before each commit (I hope so):
+- Installing: ``composer require nunomaduro/insights --dev``
+- Publish the confi file: ``php artisan vendor:publish --provider="NunoMaduro\PhpInsights\Application\Adapters\Laravel\InsightsServiceProvider"``
+- Usage: ``artisan insights``
+
+
 ## Learning Laravel
 
 ### Installing a laravel app using SAIL

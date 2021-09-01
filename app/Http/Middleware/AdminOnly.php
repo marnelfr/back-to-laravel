@@ -20,9 +20,9 @@ class AdminOnly
         if (auth()->user()?->username !== 'marnel') {
 //            abort(Response::HTTP_FORBIDDEN);
             return redirect('/login');
-        } elseif (request()->routeIs('login')) {
+        } /*elseif (request()->routeIs('login')) {
             return redirect()->route('dashboard')->with('success', 'Welcome back ' . auth()->user()->username);
-        }
+        }*/
 
         return $next($request);
     }

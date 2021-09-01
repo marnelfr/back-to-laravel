@@ -44,7 +44,6 @@ class AdminPostController extends Controller
     }
 
     public function update(PostRequest $request, Post $post) {
-        // TODO: start using only section by this side
         $attributes = $request->except('thumbnail');
         if ($request->thumbnail) {
             File::delete($post->thumbnail);

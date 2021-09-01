@@ -16,9 +16,7 @@ class NewsletterContoller extends Controller
     {
         request()->validate(['email' => 'required|email']);
 
-
 //    $response = $client->lists->getAllLists();
-
 //    $response = $client->lists->getList('707f652308');
 //    $response = $client->lists->getListMembersInfo('707f652308');
 //    ddd($response);
@@ -36,5 +34,5 @@ class NewsletterContoller extends Controller
 //        'status' =>  'unsubscribed'
 //    ]);
     }
-
 }
+

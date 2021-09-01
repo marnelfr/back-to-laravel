@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
                 'apiKey' => config('services.mailchimp.key'),
                 'server' => config('services.mailchimp.server')
             ]);
-            return (new MailChimpNewsletter($client));
+            return new MailChimpNewsletter($client);
         });
     }
 
