@@ -25,7 +25,7 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 It may be a good habit to use the [PHP Insights](https://github.com/nunomaduro/phpinsights) 
 to check your code before each commit (I hope so):
 - Installing: ``composer require nunomaduro/insights --dev``
-- Publish the confi file: ``php artisan vendor:publish --provider="NunoMaduro\PhpInsights\Application\Adapters\Laravel\InsightsServiceProvider"``
+- Publish the conf file: ``php artisan vendor:publish --provider="NunoMaduro\PhpInsights\Application\Adapters\Laravel\InsightsServiceProvider"``
 - Usage: ``artisan insights``
 
 
@@ -44,14 +44,14 @@ app through that url.
 ### Adding SAIL to an existing app
 - ``composer require laravel/sail --dev``
 - ``php artisan sail:install``
-- ``./vendor/bin/sail up``
+- ``./vendor/bin/sail up -d``
 
 We can create an alias to make sail easier to use.
 
 
 ### Adding constraints to our route parameters
 We can add constraints to our route parameters using `whereNumber`, `whereAlpha`,... 
-or use custom regular expressions with ``where``:
+or using custom regular expressions with ``where``:
 ````injectablephp
 
 Route::get('/posts/{slug}', function ($slug) {
@@ -157,7 +157,7 @@ content will become:
 
 ### Database
 The ORM here is **Eloquent**\
-**artisan** provide a lot of command to manage the database through our
+**artisan** provide a lot of command to manage our database through our
 migrations.
 In a migration, 
 - the **up** function is executed by the command
@@ -166,7 +166,7 @@ In a migration,
 ``php artisan migrate:rollback`` for latest migrations
 - the command ``php artisan migrate:fresh`` execute the
 **up** functions off all migration after deleting every 
-table in the database.
+table from the database.
 
 ### Active Record Pattern
 The active record pattern refers to a model in laravel.
@@ -174,8 +174,7 @@ Here, the User model refers to the current active record in the
 database's users table.
 - ``User::count()`` returns the number of element in the users tables
 - ``User::find(1)`` returns the user with id 1
-- ``$users = User::all()`` returns a collection of all record in the users table
-let's say in the ``$users`` variable
+- ``$users = User::all()`` returns a collection of all record in the users' table
 - ``$users->pluck('name')`` returns a collection containing only users
 names. This is actually like doing ``$users->map(fn($user) => $user->name)``
 - ``$users->first()`` returns the first occurrence in the collection like
@@ -257,7 +256,7 @@ public function posts() {
 And then, we can access a collection of posts related to a 
 category using ``$category->posts``
 
-While setting our foreign attributes, we can set constrained and some
+While setting up our foreign attributes, we can set constrained and some
 cascade operations if we want:
 ````injectablephp
 $table->foreignId('post_id')->constrained()->cascadeOnDelete();
@@ -317,7 +316,7 @@ model and seed aannnd controllers using:
 
 ### Eager loading relationships
 In case we're not loading records from the model but an existing 
-model, we can't use the ``with()`` method but we've got the ``load()``
+variable of a model, we can't use the ``with()`` method but we've got the ``load()``
 method that we can use:
 ````injectablephp
 Route::get('/authors/{author}', function (User $author) {
@@ -343,7 +342,7 @@ While using component, you can send variables via props:
 ````html
 <x-post-featured-card :post="$posts->first()"/>
 ````
-Here, we've got the first record of the ``$posts`` variable that
+Here, we've got the first record from the ``$posts`` collection that
 will be sent to the ``post-featured-card.blade.php`` component.
 Thus, inside the component, we will refer to it:
 ````injectablephp
@@ -457,16 +456,17 @@ public function scopeFilter($query, $filters) {
 
 ### Components
 It's possible to use component with they own helpers (stole from meteor.js).
-We can create a new one using ``artisan make:component CategoryComponent``
+We can create a new one using ``artisan make:component Guest/CategoryComponent``
 for example. 
 Henceforth, 
-- the component view can be found in ``\resources\components``
-- the component helper in ``\app\View\Components``. We can then
+- the component view can be found in ``\resources\components\guest``
+- the component helper in ``\app\View\Components\Guest``. We can then
 from here, send our variable we only need in the component.
 
-It's also possible to regroup our components by directory. So
-we can have the component ``\resources\views\components\posts\author.blade.php``
-that will use with the tag ``<x-posts.author />``
+We can avoid the ``Guest/`` in our previous command if we dont 
+want to put our component in a subdirectory.
+we can have the component ``\resources\views\components\guest\card.blade.php``
+that will use with the tag ``<x-guest.card />``
 
 
 ### OR condition's issue
@@ -500,7 +500,7 @@ Since then, we can display the pagination's links in our view using
 {{ $posts->links() }}
 ````
 
-By default, Laravel use the tailwind css famework. But we can change 
+By default, Laravel uses the tailwind css famework. But we can change 
 this in the ``\app\Providers\AppServiceProvider::boot()`` method.
 The supported css frameworks are:
 - bootstrap 4
@@ -541,7 +541,7 @@ $attributes = request()->validate([
 ````
 
 If we are doing an update, we should consider ignoring our current record:
-``Rule::unique('posts', 'slug')->ignore($post->id)`` (we can just pass ``$post`` to the 
+``Rule::unique('posts', 'slug')->ignore($post->slug)`` (we can just pass ``$post`` to the 
 ``ignore`` method) and specify the ``@method('PATCH')`` in order to let 
 laravel know we're not doing a **POST** request but a **PATCH** one.
 
@@ -701,8 +701,8 @@ They are:
 - **delete/destroy**: to destroy an item 
 
 It may come we'll have to use another named method in our controllers 
-but it's better to try staying with those seven as much as possible.
-
+but it's better to try staying with those seven as much as possible. 
+And in those situations, it's always a signe that we need to create another controller.
 
 ### Config
 When you add your key to the ``.env`` file, you can also add them to the 
@@ -714,12 +714,12 @@ Let's take a look at inside a config file, they basically return an associative 
 return [
     'key1' =>  'value1',
     'key2' => [
-        'sousKey21' => 'valueSousKey21'
+        'key21' => 'valueKey21'
     ]   
 ];
 ````
 
-Our values can be accessed through ``config('configFileName.key2.sousKey21')``
+Our values can be accessed through ``config('configFileName.key2.key21')``
 
 
 ### The container
@@ -850,6 +850,33 @@ public function rules()
 ````
 
 
+### Adding customized validation rules
+Inside your custom request, you can define custom validation rules.\
+This need to define the controller of the request class. Here is an example:
+````injectablephp
+    public function __construct(
+        array $query = [], array $request = [], array $attributes = [],
+        array $cookies = [], array $files = [], array $server = [],
+        $content = null, Factory $factory = null
+    ){
+
+        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
+        $factory->extend(
+            'dev_mail',
+            function ($attributes, $value, $parameters) {
+                return strpos($value, '@dev.com') !== false;
+
+            },
+            __('auth.dev.mail')
+        );
+
+    }
+````
+
+The rules can then be used with the name **dev_mail** and will throw an error
+with the **auth.dev.mail** message if a mail not from **dev.com** is provided.
+
+
 ### Gates
 In the ``boot`` method of our ``AppServiceProvider``, we can add a **Gates**
 directive:
@@ -935,7 +962,6 @@ name in our views using the ```route()``` method.
 <a href="{{ route('posts.show', ['post_id' => 5]) }}"></a>
 <a href="{{ route('posts.show', [5]) }}"></a>
 ````
-
 
 ### Eloquent relationships
 Let's get focus on [Eloquent](Eloquent.md)
