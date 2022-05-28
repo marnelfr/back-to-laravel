@@ -852,7 +852,8 @@ public function rules()
 
 ### Adding customized validation rules
 Inside your custom request, you can define custom validation rules.\
-This need to define the controller of the request class. Here is an example:
+This need to define the controller of the request class and inject 
+the ``Illuminate\Validation\Factory`` class. Here is an example:
 ````injectablephp
     public function __construct(
         array $query = [], array $request = [], array $attributes = [],
@@ -864,7 +865,7 @@ This need to define the controller of the request class. Here is an example:
         $factory->extend(
             'dev_mail',
             function ($attributes, $value, $parameters) {
-                return strpos($value, '@dev.com') !== false;
+                return !!strpos($value, '@dev.com');
 
             },
             __('auth.dev.mail')
@@ -962,6 +963,23 @@ name in our views using the ```route()``` method.
 <a href="{{ route('posts.show', ['post_id' => 5]) }}"></a>
 <a href="{{ route('posts.show', [5]) }}"></a>
 ````
+
+
+### Using Queue
+If in our application, we send some notification, it may make our application 
+because slow. This is where queue come in. Using **queue**, we can keep our 
+application very fast every sending a lot of notification in the middle time.
+To use it, 
+- our notification class must implement the **ShouldQueue** interface;
+- we should set up redis (for example) to manage our queue;
+- the value of our env variable **QUEUE_CONNECTION** should be **redis**.
+
+Once done, our notification wont be sent automatically anymore.
+To make them be sent, we should henceforth execute the cmd 
+``sail artisan queue:work``
+
+
+
 
 ### Eloquent relationships
 Let's get focus on [Eloquent](Eloquent.md)
